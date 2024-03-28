@@ -11,9 +11,9 @@ import com.example.pagingexampleone.data.local.entitie.CatEntity
 interface CatDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(cats: List<CatEntity>)
-
-    @Query("SELECT * FROM cats")
-    fun getAll(): PagingSource<Int, CatEntity>
+//
+//    @Query("SELECT * FROM cats")
+//    fun getAll(): PagingSource<Int, CatEntity>
 
     @Query("DELETE FROM cats")
     suspend fun deleteAll()
