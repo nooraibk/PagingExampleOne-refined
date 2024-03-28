@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".CatApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,7 +14,16 @@
         android:theme="@style/Theme.PagingExampleOne"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".views.networkanddb.NetworkAndDbActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.network.NetworkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.db.DbActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.home.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
