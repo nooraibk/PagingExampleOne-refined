@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.views.networkanddb
+package com.example.pagingexampleone.views.activities.networkanddb
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

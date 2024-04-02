@@ -14,16 +14,16 @@
         android:theme="@style/Theme.PagingExampleOne"
         tools:targetApi="31">
         <activity
-            android:name=".views.networkanddb.NetworkAndDbActivity"
+            android:name=".views.activities.networkanddb.NetworkAndDbActivity"
             android:exported="false" />
         <activity
-            android:name=".views.network.NetworkActivity"
+            android:name=".views.activities.NetworkActivity"
             android:exported="false" />
         <activity
-            android:name=".views.db.DbActivity"
+            android:name=".views.activities.db.DbActivity"
             android:exported="false" />
         <activity
-            android:name=".views.home.MainActivity"
+            android:name=".views.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
