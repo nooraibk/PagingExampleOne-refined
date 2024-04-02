@@ -6,6 +6,7 @@ import androidx.annotation.RequiresExtension
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.pagingexampleone.data.network.dtos.CatDto
+import kotlinx.coroutines.delay
 import java.io.IOException
 
 const val STARTING_PAGE_INDEX = 1
@@ -16,6 +17,7 @@ class CatPagingSource(private val catApi: CatApi) : PagingSource<Int, CatDto>() 
         val page = params.key ?: STARTING_PAGE_INDEX
         return try {
             val response = catApi.getCatImages(page = page, size = params.loadSize)
+            delay(2000L)
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1,
