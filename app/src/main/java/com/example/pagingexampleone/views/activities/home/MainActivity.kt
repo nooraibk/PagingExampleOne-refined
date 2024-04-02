@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.views.activities
+package com.example.pagingexampleone.views.activities.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

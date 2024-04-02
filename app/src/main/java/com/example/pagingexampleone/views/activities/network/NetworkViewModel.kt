@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.views.activities
+package com.example.pagingexampleone.views.activities.network
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn

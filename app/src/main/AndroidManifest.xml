@@ -19,7 +19,7 @@
             android:name=".views.activities.networkanddb.NetworkAndDbActivity"
             android:exported="false" />
         <activity
-            android:name=".views.activities.NetworkActivity"
+            android:name=".views.activities.network.NetworkActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,7 @@
             android:name=".views.activities.db.DbActivity"
             android:exported="false" />
         <activity
-            android:name=".views.activities.MainActivity"
+            android:name=".views.activities.home.MainActivity"
             android:exported="false">
 
         </activity>
