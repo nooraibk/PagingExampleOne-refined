@@ -16,8 +16,10 @@ import com.example.pagingexampleone.databinding.ActivityDbBinding
 import com.example.pagingexampleone.databinding.ActivityNetworkBinding
 import com.example.pagingexampleone.views.activities.adapters.CatsLoadStateAdapter
 import com.example.pagingexampleone.views.activities.adapters.NetworkDataAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class DbActivity : BaseActivity() {
 
     override val baseViewModel: DatabaseViewModel by viewModels()

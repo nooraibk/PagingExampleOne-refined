@@ -93,4 +93,5 @@ dependencies {
     implementation "androidx.room:room-runtime:$versions.room"
     implementation "androidx.room:room-ktx:$versions.room"
     kapt "androidx.room:room-compiler:$versions.room"
+    implementation "androidx.room:room-paging:2.6.1"
 }
