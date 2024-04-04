@@ -23,7 +23,7 @@ class CatsLoadStateViewHolder(
 
             progressBar.isVisible = loadState is LoadState.Loading
             errorMsg.isVisible = loadState is LoadState.Error
-            retryButton.isVisible = loadState is LoadState.NotLoading
+            retryButton.isVisible = loadState is LoadState.Error
         }
     }
 

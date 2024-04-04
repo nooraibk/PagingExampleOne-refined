@@ -39,7 +39,7 @@ class NetworkActivity : BaseActivity() {
 
     }
 
-    private suspend fun initAdapter(){
+    private fun initAdapter(){
         binding.recyclerView.adapter = networkAdapter.withLoadStateHeaderAndFooter(
             header = CatsLoadStateAdapter{networkAdapter.retry()},
             footer = CatsLoadStateAdapter{networkAdapter.retry()}

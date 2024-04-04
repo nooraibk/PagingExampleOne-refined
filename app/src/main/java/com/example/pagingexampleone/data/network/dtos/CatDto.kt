@@ -1,5 +1,11 @@
 package com.example.pagingexampleone.data.network.dtos
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "cats") //map to can entity later
 data class CatDto(
-    val id: String, val url: String
+    @PrimaryKey
+    val id: String,
+    val url: String
 )
