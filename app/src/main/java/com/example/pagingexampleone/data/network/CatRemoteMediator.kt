@@ -18,8 +18,8 @@ class CatRemoteMediator(
 ) : RemoteMediator<Int, CatDto>() {
 
     override suspend fun initialize(): InitializeAction {
-        return InitializeAction.SKIP_INITIAL_REFRESH
-//        return InitializeAction.LAUNCH_INITIAL_REFRESH
+//        return InitializeAction.SKIP_INITIAL_REFRESH
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
     }
     override suspend fun load(loadType: LoadType, state: PagingState<Int, CatDto>): MediatorResult {
         val pageKeyData = getKeyPageData(loadType, state) // to determine which page we need to load based on the load type
@@ -50,6 +50,7 @@ class CatRemoteMediator(
                 }
                 db.getKeysDao().insertAll(keys)
                 db.getCatDao().insertAll(response)
+//                db.getCatDao().insertCatWithLimit(response)
             }
             return MediatorResult.Success(endOfPaginationReached = isEndOfList)
         }catch (e : IOException){

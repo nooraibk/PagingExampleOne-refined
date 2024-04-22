@@ -58,7 +58,7 @@ class CatsRepo @Inject constructor(
 
     suspend fun fillWithDummyCats(dummyCats : List<CatDto>){
         catDB.getCatDao().deleteAll()
-        catDB.getCatDao().insertAll(dummyCats)
+        catDB.getCatDao().insertCatWithLimit(dummyCats)
     }
 
     suspend fun deleteDummyCats() = catDB.getCatDao().deleteAll()

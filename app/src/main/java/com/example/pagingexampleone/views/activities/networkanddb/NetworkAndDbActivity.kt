@@ -61,7 +61,7 @@ class NetworkAndDbActivity : BaseActivity() {
             ?: combinedLoadStates.source.prepend as? LoadState.Error
 
         errorState.let {
-            Toast.makeText(this@NetworkAndDbActivity    , "${it?.error}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@NetworkAndDbActivity, "${it?.error}", Toast.LENGTH_SHORT).show()
         }
     }
 }
