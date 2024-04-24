@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.views.activities.adapters
+package com.example.pagingexampleone.views.adapters
 
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter

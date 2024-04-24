@@ -1,6 +1,7 @@
 package com.example.pagingexampleone.data.network
 
 import android.net.http.HttpException
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -18,8 +19,11 @@ class CatRemoteMediator(
 ) : RemoteMediator<Int, CatDto>() {
 
     override suspend fun initialize(): InitializeAction {
-//        return InitializeAction.SKIP_INITIAL_REFRESH
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
+        return if (db.getCatDao().getCatsCount() > 0){
+            InitializeAction.SKIP_INITIAL_REFRESH
+        } else {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
     }
     override suspend fun load(loadType: LoadType, state: PagingState<Int, CatDto>): MediatorResult {
         val pageKeyData = getKeyPageData(loadType, state) // to determine which page we need to load based on the load type

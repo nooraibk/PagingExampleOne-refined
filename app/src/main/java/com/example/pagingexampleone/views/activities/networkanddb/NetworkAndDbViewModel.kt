@@ -17,11 +17,11 @@ class NetworkAndDbViewModel @Inject constructor(
         viewModelScope.launch {
 //            catsRepo.deleteDummyCats()
 
-            val dummyCats = mutableListOf<CatDto>()
-            for (i in 1..120){
-                dummyCats.add(CatDto(i.toString(), "https://cdn2.thecatapi.com/images/ja.jpg"))
-            }
-            catsRepo.fillWithDummyCats(dummyCats)
+//            val dummyCats = mutableListOf<CatDto>()
+//            for (i in 1..120){
+//                dummyCats.add(CatDto(i.toString(), "https://cdn2.thecatapi.com/images/ja.jpg"))
+//            }
+//            catsRepo.fillWithDummyCats(dummyCats)
         }
     }
     val catsFromNetwork = catsRepo.getCatsFromMediator().cachedIn(viewModelScope)

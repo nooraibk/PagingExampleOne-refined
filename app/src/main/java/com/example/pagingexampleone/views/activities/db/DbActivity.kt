@@ -14,8 +14,8 @@ import com.example.pagingexampleone.R
 import com.example.pagingexampleone.core.bases.BaseActivity
 import com.example.pagingexampleone.databinding.ActivityDbBinding
 import com.example.pagingexampleone.databinding.ActivityNetworkBinding
-import com.example.pagingexampleone.views.activities.adapters.CatsLoadStateAdapter
-import com.example.pagingexampleone.views.activities.adapters.NetworkDataAdapter
+import com.example.pagingexampleone.views.adapters.CatsLoadStateAdapter
+import com.example.pagingexampleone.views.adapters.NetworkDataAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
