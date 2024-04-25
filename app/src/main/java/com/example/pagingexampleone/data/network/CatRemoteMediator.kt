@@ -1,7 +1,5 @@
 package com.example.pagingexampleone.data.network
 
-import android.net.http.HttpException
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -9,16 +7,23 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entitie.RemoteKeyEntity
+import com.example.pagingexampleone.data.local.preferences.PreferencesKey.LAST_DATA_FETCHED_DATE
+import com.example.pagingexampleone.data.local.preferences.TinyDB
 import com.example.pagingexampleone.data.network.dtos.CatDto
 import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
 class CatRemoteMediator(
     private val api : CatApi,
-    private val db : CatDatabase
+    private val db : CatDatabase,
+    private val tinyDb : TinyDB
 ) : RemoteMediator<Int, CatDto>() {
 
     override suspend fun initialize(): InitializeAction {
+        if (tinyDb.getLong(LAST_DATA_FETCHED_DATE, -1) > System.currentTimeMillis()){
+
+        }
+
         return if (db.getCatDao().getCatsCount() > 0){
             InitializeAction.SKIP_INITIAL_REFRESH
         } else {

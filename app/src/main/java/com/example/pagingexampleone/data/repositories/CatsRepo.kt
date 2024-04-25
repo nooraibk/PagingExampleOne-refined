@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.pagingexampleone.data.local.db.CatDatabase
+import com.example.pagingexampleone.data.local.preferences.TinyDB
 import com.example.pagingexampleone.data.network.CatApi
 import com.example.pagingexampleone.data.network.CatPagingSource
 import com.example.pagingexampleone.data.network.CatRemoteMediator
@@ -16,7 +17,8 @@ private const val PAGE_SIZE = 30
 
 class CatsRepo @Inject constructor(
     private val catApi: CatApi,
-    private val catDB: CatDatabase
+    private val catDB: CatDatabase,
+    private val tinyDB: TinyDB
 ) {
     fun getCatsFromNetwork(): Flow<PagingData<CatDto>> {
         return Pager(
@@ -50,7 +52,8 @@ class CatsRepo @Inject constructor(
             ),
             remoteMediator = CatRemoteMediator(
                 catApi,
-                catDB
+                catDB,
+                tinyDB
             ),
             pagingSourceFactory = {catDB.getCatDao().getAll()}
         ).flow
