@@ -4,7 +4,9 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.pagingexampleone.core.models.Cat
 import com.example.pagingexampleone.data.local.db.CatDatabase
+import com.example.pagingexampleone.data.local.entitie.CatEntity
 import com.example.pagingexampleone.data.local.preferences.TinyDB
 import com.example.pagingexampleone.data.network.CatApi
 import com.example.pagingexampleone.data.network.CatPagingSource
@@ -31,19 +33,19 @@ class CatsRepo @Inject constructor(
         ).flow
     }
 
-    fun gatCatsFromDB(): Flow<PagingData<CatDto>>{
+    fun gatCatsFromDB(): Flow<PagingData<CatEntity>>{
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 maxSize = PAGE_SIZE + (PAGE_SIZE * 2),
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = {catDB.getCatDao().getAll()}
+            pagingSourceFactory = { catDB.getCatDao().getAll() }
         ).flow
     }
 
     @OptIn(ExperimentalPagingApi::class)
-    fun getCatsFromMediator() : Flow<PagingData<CatDto>>{
+    fun getCatsFromMediator() : Flow<PagingData<Cat>>{
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
@@ -59,7 +61,7 @@ class CatsRepo @Inject constructor(
         ).flow
     }
 
-    suspend fun fillWithDummyCats(dummyCats : List<CatDto>){
+    suspend fun fillWithDummyCats(dummyCats : List<CatEntity>){
         catDB.getCatDao().deleteAll()
         catDB.getCatDao().insertAll(dummyCats)
     }

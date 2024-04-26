@@ -1,11 +1,15 @@
 package com.example.pagingexampleone.data.network
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.pagingexampleone.core.calculateTime
+import com.example.pagingexampleone.core.mappers.toCat
+import com.example.pagingexampleone.core.mappers.toCatEntity
+import com.example.pagingexampleone.core.models.Cat
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entitie.RemoteKeyEntity
 import com.example.pagingexampleone.data.local.preferences.PreferencesKey.LAST_DATA_FETCHED_DATE
@@ -18,15 +22,19 @@ class CatRemoteMediator(
     private val api: CatApi,
     private val db: CatDatabase,
     private val tinyDb: TinyDB
-) : RemoteMediator<Int, CatDto>() {
+) : RemoteMediator<Int, Cat>() {
 
     override suspend fun initialize(): InitializeAction {
+        Log.d("Time::", "${System.currentTimeMillis()} ${tinyDb.getLong(LAST_DATA_FETCHED_DATE, -1)}, ${System.currentTimeMillis()
+            .calculateTime(tinyDb.getLong(LAST_DATA_FETCHED_DATE, -1))}")
         return if (System.currentTimeMillis()
                 .calculateTime(tinyDb.getLong(LAST_DATA_FETCHED_DATE, -1))
         ) {
+            Log.d("LaunchInitial", "Launch Initial")
             tinyDb.putLong(LAST_DATA_FETCHED_DATE, System.currentTimeMillis())
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else {
+            Log.d("SkipInitial", "Skip Initial")
             InitializeAction.SKIP_INITIAL_REFRESH
         }
         /*
@@ -37,7 +45,7 @@ class CatRemoteMediator(
                 }*/
     }
 
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, CatDto>): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, Cat>): MediatorResult {
         val pageKeyData = getKeyPageData(
             loadType,
             state
@@ -54,7 +62,7 @@ class CatRemoteMediator(
         }
 
         try {
-            val response = api.getCatImages(page = page, size = state.config.pageSize)
+            val response = api.getCatImages(page = page, size = state.config.pageSize).map { it.toCat() }
             val isEndOfList = response.isEmpty()
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
@@ -68,7 +76,7 @@ class CatRemoteMediator(
                     RemoteKeyEntity(it.id, prevKey = prevKey, nextKey = nextKey)
                 }
                 db.getKeysDao().insertAll(keys)
-                db.getCatDao().insertAll(response)
+                db.getCatDao().insertAll(response.map { it.toCatEntity() })
 //                db.getCatDao().insertCatWithLimit(response)
             }
             return MediatorResult.Success(endOfPaginationReached = isEndOfList)
@@ -81,7 +89,7 @@ class CatRemoteMediator(
 
     private suspend fun getKeyPageData(
         loadType: LoadType,
-        state: PagingState<Int, CatDto>
+        state: PagingState<Int, Cat>
     ): Any { //can return page number or page result as MediatorResult.Success
         return when (loadType) {
             LoadType.REFRESH -> { //when the data is called for first time or invalidated, hence refresh
@@ -103,7 +111,7 @@ class CatRemoteMediator(
         }
     }
 
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, CatDto>): RemoteKeyEntity? { //fetches closest key values (which is remote key entity) from db against $closest item (which is retrieved by anchor position)
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Cat>): RemoteKeyEntity? { //fetches closest key values (which is remote key entity) from db against $closest item (which is retrieved by anchor position)
         return state.anchorPosition?.let { anchorPos ->
             state.closestItemToPosition(anchorPos)?.id?.let { catId ->
                 db.getKeysDao().remoteKeysByCatId(catId)
@@ -111,7 +119,7 @@ class CatRemoteMediator(
         }
     }
 
-    private suspend fun getLastRemoteKey(state: PagingState<Int, CatDto>): RemoteKeyEntity? {
+    private suspend fun getLastRemoteKey(state: PagingState<Int, Cat>): RemoteKeyEntity? {
         val lastPageData = state.pages.lastOrNull { //to retrieve last key and make sure it has data
             it.data.isNotEmpty()
         }
@@ -121,7 +129,7 @@ class CatRemoteMediator(
         }
     }
 
-    private suspend fun getFirstRemoteKEy(state: PagingState<Int, CatDto>): RemoteKeyEntity? {
+    private suspend fun getFirstRemoteKEy(state: PagingState<Int, Cat>): RemoteKeyEntity? {
         val firstPageData =
             state.pages.firstOrNull {//to retrieve first key and make sure it has data
                 it.data.isNotEmpty()

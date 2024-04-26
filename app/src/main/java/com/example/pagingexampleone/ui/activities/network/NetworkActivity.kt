@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.views.activities.networkanddb
+package com.example.pagingexampleone.ui.activities.network
 
 import android.os.Bundle
 import android.widget.Toast
@@ -8,46 +8,43 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.example.pagingexampleone.core.bases.BaseActivity
-import com.example.pagingexampleone.databinding.ActivityNetworkAndDbBinding
-import com.example.pagingexampleone.views.adapters.CatsLoadStateAdapter
-import com.example.pagingexampleone.views.adapters.NetworkDataAdapter
+import com.example.pagingexampleone.databinding.ActivityNetworkBinding
+import com.example.pagingexampleone.ui.adapters.CatsLoadStateAdapter
+import com.example.pagingexampleone.ui.adapters.NetworkDataAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NetworkAndDbActivity : BaseActivity() {
-    override val baseViewModel: NetworkAndDbViewModel by viewModels()
-    private lateinit var binding : ActivityNetworkAndDbBinding
+class NetworkActivity : BaseActivity() {
+
+    override val baseViewModel: NetworkViewModel by viewModels()
+    private lateinit var binding : ActivityNetworkBinding
     private val networkAdapter = NetworkDataAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityNetworkAndDbBinding.inflate(layoutInflater)
+        binding = ActivityNetworkBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         lifecycleScope.launch {
-            initAdapter(true)
+            initAdapter()
             baseViewModel.catsFromNetwork.collect{
                 networkAdapter.submitData(it)
             }
         }
+
     }
 
-
-    private fun initAdapter(isMediator : Boolean = false){
+    private fun initAdapter(){
         binding.recyclerView.adapter = networkAdapter.withLoadStateHeaderAndFooter(
             header = CatsLoadStateAdapter{networkAdapter.retry()},
             footer = CatsLoadStateAdapter{networkAdapter.retry()}
         )
         networkAdapter.addLoadStateListener { combinedLoadStates ->
-            val refreshState = if (isMediator) {
-                combinedLoadStates.mediator?.refresh
-            }else{
-                combinedLoadStates.source.refresh
-            }
             binding.apply{
-                recyclerView.isVisible = refreshState is LoadState.NotLoading
-                progressBar.isVisible = refreshState is LoadState.Loading
-                buttonRetry.isVisible = refreshState is LoadState.Error
+                recyclerView.isVisible = combinedLoadStates.refresh is LoadState.NotLoading
+                progressBar.isVisible = combinedLoadStates.refresh is LoadState.Loading
+                buttonRetry.isVisible = combinedLoadStates.refresh is LoadState.Error
                 handleError(combinedLoadStates)
             }
         }
@@ -61,7 +58,7 @@ class NetworkAndDbActivity : BaseActivity() {
             ?: combinedLoadStates.source.prepend as? LoadState.Error
 
         errorState.let {
-            Toast.makeText(this@NetworkAndDbActivity, "${it?.error}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@NetworkActivity, "${it?.error}", Toast.LENGTH_SHORT).show()
         }
     }
 }

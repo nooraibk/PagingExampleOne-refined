@@ -6,18 +6,18 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.example.pagingexampleone.data.network.dtos.CatDto
+import com.example.pagingexampleone.data.local.entitie.CatEntity
 
 @Dao
 interface CatDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(cats: List<CatDto>)
+    suspend fun insertAll(cats: List<CatEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(cat: CatDto)
+    suspend fun insert(cat: CatEntity)
 
     @Query("SELECT * FROM cats")
-    fun getAll(): PagingSource<Int, CatDto>
+    fun getAll(): PagingSource<Int, CatEntity>
 
     @Query("DELETE FROM cats")
     suspend fun deleteAll()
@@ -32,10 +32,10 @@ interface CatDao {
     suspend fun getCatsCount(): Int
 
     @Query("SELECT * FROM cats")
-    suspend fun getAllCats(): List<CatDto>
+    suspend fun getAllCats(): List<CatEntity>
 
     @Transaction
-    suspend fun insertCatWithLimit(cats: List<CatDto>) {
+    suspend fun insertCatWithLimit(cats: List<CatEntity>) {
         val catsCount = getCatsCount()
         val totalRecords = catsCount + cats.size
 

@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.views.activities.network
+package com.example.pagingexampleone.ui.activities.db
 
 import android.os.Bundle
 import android.widget.Toast
@@ -7,37 +7,34 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import androidx.paging.LoadStateAdapter
 import com.example.pagingexampleone.core.bases.BaseActivity
-import com.example.pagingexampleone.databinding.ActivityNetworkBinding
-import com.example.pagingexampleone.views.adapters.CatsLoadStateAdapter
-import com.example.pagingexampleone.views.adapters.NetworkDataAdapter
+import com.example.pagingexampleone.databinding.ActivityDbBinding
+import com.example.pagingexampleone.ui.adapters.CatsLoadStateAdapter
+import com.example.pagingexampleone.ui.adapters.NetworkDataAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-class NetworkActivity : BaseActivity() {
+class DbActivity : BaseActivity() {
 
-    override val baseViewModel: NetworkViewModel by viewModels()
-    private lateinit var binding : ActivityNetworkBinding
+    override val baseViewModel: DatabaseViewModel by viewModels()
+    private lateinit var binding : ActivityDbBinding
     private val networkAdapter = NetworkDataAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityNetworkBinding.inflate(layoutInflater)
+        binding = ActivityDbBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        baseViewModel.fillWithDummyCats()
         lifecycleScope.launch {
             initAdapter()
-            baseViewModel.catsFromNetwork.collect{
+            baseViewModel.catsFromDatabase.collect{
                 networkAdapter.submitData(it)
             }
         }
-
     }
+
 
     private fun initAdapter(){
         binding.recyclerView.adapter = networkAdapter.withLoadStateHeaderAndFooter(
@@ -62,7 +59,7 @@ class NetworkActivity : BaseActivity() {
             ?: combinedLoadStates.source.prepend as? LoadState.Error
 
         errorState.let {
-            Toast.makeText(this@NetworkActivity, "${it?.error}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@DbActivity, "${it?.error}", Toast.LENGTH_SHORT).show()
         }
     }
 }

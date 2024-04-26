@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.views.viewholders
+package com.example.pagingexampleone.ui.viewholders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.views.fragments.catslist
+package com.example.pagingexampleone.ui.fragments.catslist
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.views.activities.network
+package com.example.pagingexampleone.ui.activities.network
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NetworkViewModel @Inject constructor(
-    private val catsRepo: CatsRepo
+    catsRepo: CatsRepo
 ) : BaseViewModel() {
     val catsFromNetwork = catsRepo.getCatsFromNetwork().cachedIn(viewModelScope)
 }

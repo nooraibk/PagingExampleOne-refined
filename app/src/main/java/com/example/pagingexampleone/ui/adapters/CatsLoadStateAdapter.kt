@@ -1,9 +1,9 @@
-package com.example.pagingexampleone.views.adapters
+package com.example.pagingexampleone.ui.adapters
 
 import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
-import com.example.pagingexampleone.views.viewholders.CatsLoadStateViewHolder
+import com.example.pagingexampleone.ui.viewholders.CatsLoadStateViewHolder
 
 class CatsLoadStateAdapter(private val retry: () -> Unit) :
     LoadStateAdapter<CatsLoadStateViewHolder>() {

@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="50dp"
-    tools:context=".views.fragments.home.HomeFragment">
+    tools:context=".ui.fragments.home.HomeFragment">
 
     <Button
         android:id="@+id/remoteCats"
