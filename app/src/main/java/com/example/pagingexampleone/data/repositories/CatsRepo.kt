@@ -45,7 +45,7 @@ class CatsRepo @Inject constructor(
     }
 
     @OptIn(ExperimentalPagingApi::class)
-    fun getCatsFromMediator() : Flow<PagingData<Cat>>{
+    fun getCatsFromMediator() : Flow<PagingData<CatEntity>>{
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,

@@ -11,6 +11,7 @@ import com.example.pagingexampleone.core.mappers.toCat
 import com.example.pagingexampleone.core.mappers.toCatEntity
 import com.example.pagingexampleone.core.models.Cat
 import com.example.pagingexampleone.data.local.db.CatDatabase
+import com.example.pagingexampleone.data.local.entitie.CatEntity
 import com.example.pagingexampleone.data.local.entitie.RemoteKeyEntity
 import com.example.pagingexampleone.data.local.preferences.PreferencesKey.LAST_DATA_FETCHED_DATE
 import com.example.pagingexampleone.data.local.preferences.TinyDB
@@ -22,7 +23,7 @@ class CatRemoteMediator(
     private val api: CatApi,
     private val db: CatDatabase,
     private val tinyDb: TinyDB
-) : RemoteMediator<Int, Cat>() {
+) : RemoteMediator<Int, CatEntity>() {
 
     override suspend fun initialize(): InitializeAction {
         Log.d("Time::", "${System.currentTimeMillis()} ${tinyDb.getLong(LAST_DATA_FETCHED_DATE, -1)}, ${System.currentTimeMillis()
@@ -45,7 +46,7 @@ class CatRemoteMediator(
                 }*/
     }
 
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, Cat>): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, CatEntity>): MediatorResult {
         val pageKeyData = getKeyPageData(
             loadType,
             state
@@ -89,7 +90,7 @@ class CatRemoteMediator(
 
     private suspend fun getKeyPageData(
         loadType: LoadType,
-        state: PagingState<Int, Cat>
+        state: PagingState<Int, CatEntity>
     ): Any { //can return page number or page result as MediatorResult.Success
         return when (loadType) {
             LoadType.REFRESH -> { //when the data is called for first time or invalidated, hence refresh
@@ -111,7 +112,7 @@ class CatRemoteMediator(
         }
     }
 
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Cat>): RemoteKeyEntity? { //fetches closest key values (which is remote key entity) from db against $closest item (which is retrieved by anchor position)
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, CatEntity>): RemoteKeyEntity? { //fetches closest key values (which is remote key entity) from db against $closest item (which is retrieved by anchor position)
         return state.anchorPosition?.let { anchorPos ->
             state.closestItemToPosition(anchorPos)?.id?.let { catId ->
                 db.getKeysDao().remoteKeysByCatId(catId)
@@ -119,7 +120,7 @@ class CatRemoteMediator(
         }
     }
 
-    private suspend fun getLastRemoteKey(state: PagingState<Int, Cat>): RemoteKeyEntity? {
+    private suspend fun getLastRemoteKey(state: PagingState<Int, CatEntity>): RemoteKeyEntity? {
         val lastPageData = state.pages.lastOrNull { //to retrieve last key and make sure it has data
             it.data.isNotEmpty()
         }
@@ -129,7 +130,7 @@ class CatRemoteMediator(
         }
     }
 
-    private suspend fun getFirstRemoteKEy(state: PagingState<Int, Cat>): RemoteKeyEntity? {
+    private suspend fun getFirstRemoteKEy(state: PagingState<Int, CatEntity>): RemoteKeyEntity? {
         val firstPageData =
             state.pages.firstOrNull {//to retrieve first key and make sure it has data
                 it.data.isNotEmpty()

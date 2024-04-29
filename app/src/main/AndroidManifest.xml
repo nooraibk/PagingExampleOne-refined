@@ -18,11 +18,7 @@
         <activity
             android:name=".ui.activities.networkanddb.NetworkAndDbActivity"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.activities.network.NetworkActivity"
@@ -36,8 +32,12 @@
         </activity>
         <activity
             android:name=".ui.activities.home.MainActivity"
-            android:exported="false">
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -80,6 +80,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycleVersion"
     implementation "androidx.activity:activity-ktx:1.8.2"
 
+    // activity viewmodel
+    implementation "androidx.activity:activity-ktx:1.9.0"
+    // fragment viewmodel
+    implementation "androidx.fragment:fragment-ktx:1.6.2"
 
 
     // Hilt

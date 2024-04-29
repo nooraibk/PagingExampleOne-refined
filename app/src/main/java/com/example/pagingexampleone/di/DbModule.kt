@@ -2,6 +2,7 @@ package com.example.pagingexampleone.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.pagingexampleone.core.Constants.CATS_DATABASE
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import dagger.Module
 import dagger.Provides
@@ -20,7 +21,7 @@ object DbModule {
     ): CatDatabase {
         return Room.databaseBuilder(
             appContext, CatDatabase::class.java,
-            "Cats.db"
+            CATS_DATABASE
         ).build()
     }
 }
