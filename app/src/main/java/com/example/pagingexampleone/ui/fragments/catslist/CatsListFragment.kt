@@ -1,20 +1,14 @@
 package com.example.pagingexampleone.ui.fragments.catslist
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.example.pagingexampleone.core.Constants.CATS_DATA_TYPE
+import com.example.pagingexampleone.core.bases.BaseFragment
 import com.example.pagingexampleone.core.utils.DataType
 import com.example.pagingexampleone.databinding.FragmentCatsListBinding
-import com.example.pagingexampleone.ui.activities.home.MainViewModel
 import com.example.pagingexampleone.ui.adapters.CatsLoadStateAdapter
 import com.example.pagingexampleone.ui.adapters.CatsPagingDataAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,18 +17,12 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CatsListFragment : Fragment() {
-
-    private var _binding: FragmentCatsListBinding? = null
-    private val binding get() = _binding!!
-    private val viewModel: MainViewModel by activityViewModels()
+class CatsListFragment : BaseFragment<FragmentCatsListBinding>(
+    FragmentCatsListBinding::inflate
+) {
     private val catsAdapter = CatsPagingDataAdapter()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCatsListBinding.inflate(inflater, container, false)
+    override fun viewInitialized() {
         binding.apply {
             initAdapter()
             lifecycleScope.launch(Dispatchers.IO) {
@@ -43,7 +31,6 @@ class CatsListFragment : Fragment() {
                 }
             }
         }
-        return binding.root
     }
 
     private fun initAdapter(){
@@ -73,8 +60,4 @@ class CatsListFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
