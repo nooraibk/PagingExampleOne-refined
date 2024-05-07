@@ -6,4 +6,6 @@ object Constants {
     const val AUTH_HEADER = "x-api-key"
     const val CATS_DATABASE = "Cats.db"
     const val CATS_DATA_TYPE = "catsDataType"
+    const val STARTING_PAGE_INDEX = 1
+    const val PAGE_SIZE = 30
 }

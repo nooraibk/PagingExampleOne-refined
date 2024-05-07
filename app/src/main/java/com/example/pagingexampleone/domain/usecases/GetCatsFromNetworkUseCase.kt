@@ -10,9 +10,14 @@ class GetCatsFromNetworkUseCase @Inject constructor(
     private val catsRepo: CatsRepo
 ) {
     operator fun invoke() =
-        catsRepo.getCatsFromNetwork().map {
+        catsRepo.getNetworkCats().map {
             it.map { catEntity ->
                 catEntity.toCat()
             }
         }
+        /*catsRepo.getCatsFromNetwork().map {
+            it.map { catEntity ->
+                catEntity.toCat()
+            }
+        }*/
 }

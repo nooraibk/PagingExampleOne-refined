@@ -6,16 +6,15 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.example.pagingexampleone.core.calculateTime
+import com.example.pagingexampleone.core.Constants.STARTING_PAGE_INDEX
+import com.example.pagingexampleone.core.calculateAndCheckTime
 import com.example.pagingexampleone.core.mappers.toCat
 import com.example.pagingexampleone.core.mappers.toCatEntity
-import com.example.pagingexampleone.core.models.Cat
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entitie.CatEntity
 import com.example.pagingexampleone.data.local.entitie.RemoteKeyEntity
 import com.example.pagingexampleone.data.local.preferences.PreferencesKey.LAST_DATA_FETCHED_DATE
 import com.example.pagingexampleone.data.local.preferences.TinyDB
-import com.example.pagingexampleone.data.network.dtos.CatDto
 import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -27,9 +26,9 @@ class CatRemoteMediator(
 
     override suspend fun initialize(): InitializeAction {
         Log.d("Time::", "${System.currentTimeMillis()} ${tinyDb.getLong(LAST_DATA_FETCHED_DATE, -1)}, ${System.currentTimeMillis()
-            .calculateTime(tinyDb.getLong(LAST_DATA_FETCHED_DATE, -1))}")
+            .calculateAndCheckTime(tinyDb.getLong(LAST_DATA_FETCHED_DATE, -1))}")
         return if (System.currentTimeMillis()
-                .calculateTime(tinyDb.getLong(LAST_DATA_FETCHED_DATE, -1))
+                .calculateAndCheckTime(tinyDb.getLong(LAST_DATA_FETCHED_DATE, -1))
         ) {
             Log.d("LaunchInitial", "Launch Initial")
             tinyDb.putLong(LAST_DATA_FETCHED_DATE, System.currentTimeMillis())
