@@ -6,12 +6,14 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.pagingexampleone.core.Constants.PAGE_SIZE
 import com.example.pagingexampleone.data.local.db.CatDatabase
-import com.example.pagingexampleone.data.local.entitie.CatEntity
+import com.example.pagingexampleone.data.local.entities.CatDataEntity
+import com.example.pagingexampleone.data.local.entities.CatEntity
 import com.example.pagingexampleone.data.local.preferences.TinyDB
 import com.example.pagingexampleone.data.network.CatApi
-import com.example.pagingexampleone.data.network.CatPaging
-import com.example.pagingexampleone.data.network.CatRemoteMediator
+import com.example.pagingexampleone.data.network.pagingsource.CatPaging
+import com.example.pagingexampleone.data.network.pagingmediator.CatRemoteMediator
 import com.example.pagingexampleone.data.network.dtos.CatDto
+import com.example.pagingexampleone.data.network.pagingmediator.CatRemote
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -54,14 +56,14 @@ class CatsRepo @Inject constructor(
     }
 
     @OptIn(ExperimentalPagingApi::class)
-    fun getCatsFromMediator(): Flow<PagingData<CatEntity>> {
+    fun getCatsFromMediator(): Flow<PagingData<CatDataEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 maxSize = PAGE_SIZE + (PAGE_SIZE * 2),
                 enablePlaceholders = false
             ),
-            remoteMediator = CatRemoteMediator(
+            remoteMediator = CatRemote(
                 catApi,
                 catDB,
                 tinyDB

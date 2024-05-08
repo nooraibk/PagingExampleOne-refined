@@ -3,10 +3,9 @@ package com.example.pagingexampleone.ui.activities.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.example.pagingexampleone.core.models.Cat
 import com.example.pagingexampleone.core.utils.DataType
-import com.example.pagingexampleone.data.local.entitie.CatEntity
+import com.example.pagingexampleone.data.local.entities.CatEntity
 import com.example.pagingexampleone.data.repositories.CatsRepo
 import com.example.pagingexampleone.domain.usecases.GetCatsFromDatabaseUseCase
 import com.example.pagingexampleone.domain.usecases.GetCatsFromMediatorUseCase

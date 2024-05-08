@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.data.network
+package com.example.pagingexampleone.data.network.pagingmediator
 
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
@@ -11,10 +11,11 @@ import com.example.pagingexampleone.core.calculateAndCheckTime
 import com.example.pagingexampleone.core.mappers.toCat
 import com.example.pagingexampleone.core.mappers.toCatEntity
 import com.example.pagingexampleone.data.local.db.CatDatabase
-import com.example.pagingexampleone.data.local.entitie.CatEntity
-import com.example.pagingexampleone.data.local.entitie.RemoteKeyEntity
+import com.example.pagingexampleone.data.local.entities.CatEntity
+import com.example.pagingexampleone.data.local.entities.RemoteKeyEntity
 import com.example.pagingexampleone.data.local.preferences.PreferencesKey.LAST_DATA_FETCHED_DATE
 import com.example.pagingexampleone.data.local.preferences.TinyDB
+import com.example.pagingexampleone.data.network.CatApi
 import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -104,7 +105,7 @@ class CatRemoteMediator(
             }
 
             LoadType.PREPEND -> { //to load data at the start of the current data set, i.q, load previous data
-                val remoteKeys = getFirstRemoteKEy(state)
+                val remoteKeys = getFirstRemoteKey(state)
                 val previousKey = remoteKeys?.prevKey
                 return previousKey ?: MediatorResult.Success(endOfPaginationReached = false)
             }
@@ -129,7 +130,7 @@ class CatRemoteMediator(
         }
     }
 
-    private suspend fun getFirstRemoteKEy(state: PagingState<Int, CatEntity>): RemoteKeyEntity? {
+    private suspend fun getFirstRemoteKey(state: PagingState<Int, CatEntity>): RemoteKeyEntity? {
         val firstPageData =
             state.pages.firstOrNull {//to retrieve first key and make sure it has data
                 it.data.isNotEmpty()

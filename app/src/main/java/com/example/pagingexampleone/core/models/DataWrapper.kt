@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.data
+package com.example.pagingexampleone.core.models
 
 abstract class DataWrapper {
     abstract val id : String

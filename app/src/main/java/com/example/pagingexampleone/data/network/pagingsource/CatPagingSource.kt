@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.data.network
+package com.example.pagingexampleone.data.network.pagingsource
 
 import android.net.http.HttpException
 import android.os.Build
@@ -6,6 +6,7 @@ import androidx.annotation.RequiresExtension
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.pagingexampleone.core.Constants.STARTING_PAGE_INDEX
+import com.example.pagingexampleone.data.network.CatApi
 import com.example.pagingexampleone.data.network.dtos.CatDto
 import kotlinx.coroutines.delay
 import java.io.IOException
