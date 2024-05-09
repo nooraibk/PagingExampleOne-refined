@@ -6,11 +6,11 @@ import com.example.pagingexampleone.data.repositories.CatsRepo
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetCatsFromDatabaseUseCase @Inject constructor(
+class GetMediatorCatsUseCase @Inject constructor(
     private val catsRepo: CatsRepo
 ) {
     operator fun invoke() =
-        catsRepo.gatCatsFromDB().map {
+        catsRepo.getCatsFromMediator().map {
             it.map { catEntity ->
                 catEntity.toCat()
             }

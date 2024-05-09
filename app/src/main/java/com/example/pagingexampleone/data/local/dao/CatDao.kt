@@ -22,10 +22,10 @@ interface CatDao {
     @Query("DELETE FROM cats")
     suspend fun deleteAll()
 
-    @Query("DELETE FROM cats WHERE id = :catId")
+    @Query("DELETE FROM cats WHERE cat_id = :catId")
     suspend fun deleteCatById(catId: String)
 
-    @Query("DELETE FROM cats WHERE id IN (:catIds)")
+    @Query("DELETE FROM cats WHERE cat_id IN (:catIds)")
     suspend fun deleteCatsByIds(catIds: List<String>)
 
     @Query("SELECT COUNT(*) FROM cats")

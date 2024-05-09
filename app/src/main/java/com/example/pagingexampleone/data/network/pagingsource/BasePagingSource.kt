@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.example.pagingexampleone.core.Constants.STARTING_PAGE_INDEX
 import java.io.IOException
 
-abstract class PagingSourceWrapper<T : Any> : PagingSource<Int, T>(){
+abstract class BasePagingSource<T : Any> : PagingSource<Int, T>(){
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
         return try {
             val nextPageNumber = params.key ?: STARTING_PAGE_INDEX

@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pagingexampleone.R
 import com.example.pagingexampleone.core.Constants.CATS_DATA_TYPE
+import com.example.pagingexampleone.core.bases.BaseActivity
+import com.example.pagingexampleone.core.showToast
 import com.example.pagingexampleone.core.utils.DataType
 import com.example.pagingexampleone.databinding.ActivityMainBinding
 import com.example.pagingexampleone.ui.fragments.catslist.CatsListFragment
@@ -11,13 +13,12 @@ import com.example.pagingexampleone.ui.fragments.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
-    private lateinit var binding: ActivityMainBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun initializeViews() {
+        binding.fragmentsContainer.setOnClickListener {
+            showToast("hehe :)")
+        }
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragments_container, HomeFragment())
             addToBackStack(null)

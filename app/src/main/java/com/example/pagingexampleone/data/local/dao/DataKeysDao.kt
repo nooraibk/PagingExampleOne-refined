@@ -7,13 +7,13 @@ import androidx.room.Query
 import com.example.pagingexampleone.data.local.entities.RemoteKeyEntity
 
 @Dao
-interface RemoteKeyDao {
+interface DataKeysDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(remoteKey: List<RemoteKeyEntity>)
 
-    @Query("SELECT * FROM remote_keys WHERE catId = :id")
-    suspend fun remoteKeysByCatId(id: String): RemoteKeyEntity?
+    @Query("SELECT * FROM remote_keys WHERE cat_id = :id")
+    suspend fun getKeysByDataId(id: String): RemoteKeyEntity?
 
     @Query("DELETE FROM remote_keys")
     suspend fun deleteAll()

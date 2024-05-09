@@ -1,5 +1,5 @@
 package com.example.pagingexampleone.core.models
 
-abstract class DataWrapper {
+abstract class DataModel {
     abstract val id : String
 }

@@ -7,14 +7,14 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.pagingexampleone.core.Constants.STARTING_PAGE_INDEX
 import com.example.pagingexampleone.core.calculateAndCheckTime
-import com.example.pagingexampleone.core.models.DataWrapper
+import com.example.pagingexampleone.core.models.DataModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entities.RemoteKeyEntity
 import com.example.pagingexampleone.data.local.preferences.PreferencesKey
 import com.example.pagingexampleone.data.local.preferences.TinyDB
 
 @OptIn(ExperimentalPagingApi::class)
-abstract class RemoteMediatorWrapper<T : DataWrapper>(
+abstract class BaseRemoteMediator<T : DataModel>(
     private val db: CatDatabase,
     private val tinyDb: TinyDB
 ) : RemoteMediator<Int, T>() {
@@ -67,9 +67,9 @@ abstract class RemoteMediatorWrapper<T : DataWrapper>(
 
     abstract suspend fun deleteExistingData()
 
-    abstract suspend fun insertData(dataList : List<DataWrapper>)
+    abstract suspend fun insertData(dataList : List<DataModel>)
 
-    abstract suspend fun remoteDataList(pageSize : Int, page : Int): List<DataWrapper>
+    abstract suspend fun remoteDataList(pageSize : Int, page : Int): List<DataModel>
 
     private suspend fun getKeyPageData(loadType: LoadType, state: PagingState<Int, T>): Any {
         return when (loadType) {
@@ -95,7 +95,7 @@ abstract class RemoteMediatorWrapper<T : DataWrapper>(
     private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, T>): RemoteKeyEntity? {
         return state.anchorPosition?.let { anchorPos ->
             state.closestItemToPosition(anchorPos)?.id?.let { dataId ->
-                db.getKeysDao().remoteKeysByCatId(dataId)
+                db.getKeysDao().getKeysByDataId(dataId)
             }
         }
     }
@@ -106,7 +106,7 @@ abstract class RemoteMediatorWrapper<T : DataWrapper>(
         }
         val lastDataItem = lastPageData?.data?.lastOrNull()
         return lastDataItem?.let {  data ->
-            db.getKeysDao().remoteKeysByCatId(data.id)
+            db.getKeysDao().getKeysByDataId(data.id)
         }
     }
 
@@ -116,7 +116,7 @@ abstract class RemoteMediatorWrapper<T : DataWrapper>(
         }
         val firstDataItem = firstPageData?.data?.firstOrNull()
         return firstDataItem?.let { data ->
-            db.getKeysDao().remoteKeysByCatId(data.id)
+            db.getKeysDao().getKeysByDataId(data.id)
         }
     }
 }

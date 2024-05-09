@@ -3,7 +3,7 @@ package com.example.pagingexampleone.di
 import com.example.pagingexampleone.core.Constants.API_KEY
 import com.example.pagingexampleone.core.Constants.AUTH_HEADER
 import com.example.pagingexampleone.core.Constants.BASE_URL
-import com.example.pagingexampleone.data.network.CatApi
+import com.example.pagingexampleone.data.network.CatsApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -79,7 +79,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideSiliconApi(retrofit: Retrofit): CatApi {
+    fun provideSiliconApi(retrofit: Retrofit): CatsApi {
         return retrofit.create()
     }
 }

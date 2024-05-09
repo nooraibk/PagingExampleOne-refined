@@ -1,29 +1,29 @@
 package com.example.pagingexampleone.data.network.pagingmediator
 
 import com.example.pagingexampleone.core.mappers.toCatData
-import com.example.pagingexampleone.core.mappers.toCatEntity
-import com.example.pagingexampleone.core.models.CatData
-import com.example.pagingexampleone.core.models.DataWrapper
+import com.example.pagingexampleone.core.mappers.toCatDataEntity
+import com.example.pagingexampleone.core.models.Cat
+import com.example.pagingexampleone.core.models.DataModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
-import com.example.pagingexampleone.data.local.entities.CatDataEntity
+import com.example.pagingexampleone.data.local.entities.CatEntity
 import com.example.pagingexampleone.data.local.preferences.TinyDB
-import com.example.pagingexampleone.data.network.CatApi
+import com.example.pagingexampleone.data.network.CatsApi
 
-class CatRemote(
-    private val api: CatApi,
+class CatsRemoteMediator(
+    private val api: CatsApi,
     private val db: CatDatabase,
     tinyDb: TinyDB
-) : RemoteMediatorWrapper<CatDataEntity>(db, tinyDb) {
+) : BaseRemoteMediator<CatEntity>(db, tinyDb) {
 
     override suspend fun deleteExistingData() {
         db.getCatDao().deleteAll()
         db.getKeysDao().deleteAll()
     }
 
-    override suspend fun insertData(dataList: List<DataWrapper>) {
+    override suspend fun insertData(dataList: List<DataModel>) {
         db.getCatDao().insertAll(
             dataList.map {
-                (it as CatData).toCatEntity()
+                (it as Cat).toCatDataEntity()
             }
         )
     }
