@@ -1,7 +1,7 @@
 fix initial refresh issue
 fix scroll issue
 convert activities to fragments
-make proper view models
+make proper view models with scoping
 make proper bases and remove redundancy
 make wrappers
 make use cases
