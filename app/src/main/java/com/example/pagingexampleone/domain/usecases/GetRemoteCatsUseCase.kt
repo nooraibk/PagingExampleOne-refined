@@ -12,7 +12,7 @@ class GetRemoteCatsUseCase @Inject constructor(
     operator fun invoke() =
         catsRepo.getRemoteCats().map {
             it.map { catEntity ->
-                catEntity.toCatData()
+                catEntity.mapFromDto()
             }
         }
 }
