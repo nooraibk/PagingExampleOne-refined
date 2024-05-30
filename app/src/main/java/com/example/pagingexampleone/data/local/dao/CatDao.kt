@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.example.pagingexampleone.data.local.entities.CatEntity
+import com.example.pagingexampleone.data.local.entities.cat.CatEntity
 
 @Dao
 interface CatDao {

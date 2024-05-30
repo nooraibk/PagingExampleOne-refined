@@ -8,21 +8,27 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.pagingexampleone.core.Constants.STARTING_PAGE_INDEX
 import com.example.pagingexampleone.core.calculateAndCheckTime
-import com.example.pagingexampleone.core.mappers.toCatData
-import com.example.pagingexampleone.core.mappers.toCatDataEntity
+import com.example.pagingexampleone.core.mappers.DtoMapper
+import com.example.pagingexampleone.core.mappers.EntityMapper
+import com.example.pagingexampleone.core.models.Cat
 import com.example.pagingexampleone.data.local.db.CatDatabase
-import com.example.pagingexampleone.data.local.entities.CatEntity
 import com.example.pagingexampleone.data.local.entities.RemoteKeyEntity
+import com.example.pagingexampleone.data.local.entities.cat.CatEntity
+import com.example.pagingexampleone.data.local.entities.cat.CatEntityMapper
 import com.example.pagingexampleone.data.local.preferences.PreferencesKey.LAST_DATA_FETCHED_DATE
 import com.example.pagingexampleone.data.local.preferences.TinyDB
 import com.example.pagingexampleone.data.network.CatsApi
+import com.example.pagingexampleone.data.network.dtos.cat.CatDto
+import com.example.pagingexampleone.data.network.dtos.cat.CatDtoMapper
 import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
 class CatRemoteMediator(
     private val api: CatsApi,
     private val db: CatDatabase,
-    private val tinyDb: TinyDB
+    private val tinyDb: TinyDB,
+    private val entityMapper: EntityMapper<CatEntity, Cat>,
+    private val dtoMapper: DtoMapper<CatDto, Cat>,
 ) : RemoteMediator<Int, CatEntity>() {
 
     override suspend fun initialize(): InitializeAction {
@@ -57,7 +63,7 @@ class CatRemoteMediator(
         }
 
         try {
-            val response = api.getCatImages(page = page, size = state.config.pageSize).map { it.toCatData() }
+            val response = api.getCatImages(page = page, size = state.config.pageSize).map { dtoMapper.mapFromDto(it) }
             val isEndOfList = response.isEmpty()
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
@@ -71,7 +77,7 @@ class CatRemoteMediator(
                     RemoteKeyEntity(it.id, prevKey = prevKey, nextKey = nextKey)
                 }
                 db.getKeysDao().insertAll(keys)
-                db.getCatDao().insertAll(response.map { it.toCatDataEntity() })
+                db.getCatDao().insertAll(response.map { entityMapper.mapToEntity(it) })
 //                db.getCatDao().insertCatWithLimit(response)
             }
             return MediatorResult.Success(endOfPaginationReached = isEndOfList)

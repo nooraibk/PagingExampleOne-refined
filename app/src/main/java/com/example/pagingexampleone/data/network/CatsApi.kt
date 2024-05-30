@@ -1,6 +1,6 @@
 package com.example.pagingexampleone.data.network
 
-import com.example.pagingexampleone.data.network.dtos.CatDto
+import com.example.pagingexampleone.data.network.dtos.cat.CatDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 

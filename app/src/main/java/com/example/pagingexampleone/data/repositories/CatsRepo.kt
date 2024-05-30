@@ -1,8 +1,8 @@
 package com.example.pagingexampleone.data.repositories
 
 import androidx.paging.PagingData
-import com.example.pagingexampleone.data.local.entities.CatEntity
-import com.example.pagingexampleone.data.network.dtos.CatDto
+import com.example.pagingexampleone.data.local.entities.cat.CatEntity
+import com.example.pagingexampleone.data.network.dtos.cat.CatDto
 import kotlinx.coroutines.flow.Flow
 
 interface CatsRepo {
