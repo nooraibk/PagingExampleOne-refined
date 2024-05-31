@@ -10,7 +10,9 @@ import com.example.pagingexampleone.domain.usecases.GetLocalCatsUseCase
 import com.example.pagingexampleone.domain.usecases.GetMediatorCatsUseCase
 import com.example.pagingexampleone.domain.usecases.GetRemoteCatsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,13 +20,26 @@ class MainViewModel @Inject constructor(
     getRemoteCatsUseCase: GetRemoteCatsUseCase,
     getLocalCatsUseCase: GetLocalCatsUseCase,
     getMediatorCatsUseCase: GetMediatorCatsUseCase
-) : ViewModel()  {
+) : ViewModel() {
 
-    private val localCats = getLocalCatsUseCase().cachedIn(viewModelScope)
-    private val remoteCats = getRemoteCatsUseCase().cachedIn(viewModelScope)
-    private val mediatorCats = getMediatorCatsUseCase().cachedIn(viewModelScope)
+    private val localCats = getLocalCatsUseCase().cachedIn(viewModelScope).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = PagingData.empty()
+    )
+    private val remoteCats = getRemoteCatsUseCase().cachedIn(viewModelScope).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = PagingData.empty()
+    )
+    private val mediatorCats = getMediatorCatsUseCase().cachedIn(viewModelScope).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = PagingData.empty()
+    )
 
-    fun setCats(catsType: DataType) : Flow<PagingData<Cat>> {
+
+    fun setCats(catsType: DataType): SharedFlow<PagingData<Cat>> {
         return when (catsType) {
             DataType.Local -> {
                 localCats

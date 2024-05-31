@@ -13,7 +13,7 @@ class CatsPaging(private val catsApi: CatsApi) : BasePagingSource<CatDto>() {
                 size = pageSize,
                 page = page
             )
-            delay(1000L)
+//            delay(1000L)
             response
         }catch (e : IOException){
             Log.d("HTTPException", e.localizedMessage?:" IOException")
