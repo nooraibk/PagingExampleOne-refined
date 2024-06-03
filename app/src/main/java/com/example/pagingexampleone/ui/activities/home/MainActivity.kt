@@ -17,7 +17,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun initializeViews() {
         binding.fragmentsContainer.setOnClickListener {
-            showToast("hehe :)")
+            this showToast "hehe :)"
         }
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragments_container, HomeFragment())
@@ -26,7 +26,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    fun moveToListFragment(dataType : DataType) {
+    infix fun moveToListFragment(dataType : DataType) {
         val catsList = CatsListFragment()
         val bundle = Bundle()
         bundle.putSerializable(CATS_DATA_TYPE, dataType)

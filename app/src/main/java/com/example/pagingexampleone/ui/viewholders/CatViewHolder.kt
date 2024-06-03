@@ -10,14 +10,14 @@ import com.example.pagingexampleone.databinding.ItemCatBinding
 
 class CatViewHolder (private val catBinding : ItemCatBinding) :
     RecyclerView.ViewHolder(catBinding.root) {
-    fun bind(item : Cat?){
+    infix fun bind(item : Cat?){
         catBinding.imageCat.load(item?.url){
             placeholder(R.drawable.ic_placeholder)
         }
     }
 
     companion object{
-        fun create(view : ViewGroup) : CatViewHolder{
+        infix fun create(view : ViewGroup) : CatViewHolder{
             val inflater = LayoutInflater.from(view.context)
             val binding = ItemCatBinding.inflate(inflater, view, false)
             return CatViewHolder(binding)

@@ -8,7 +8,7 @@ import com.example.pagingexampleone.ui.viewholders.CatsLoadStateViewHolder
 class CatsLoadStateAdapter(private val retry: () -> Unit) :
     LoadStateAdapter<CatsLoadStateViewHolder>() {
     override fun onBindViewHolder(holder: CatsLoadStateViewHolder, loadState: LoadState) {
-        holder.bindLoadStateView(loadState)
+        holder bindLoadStateView loadState
     }
 
     override fun onCreateViewHolder(

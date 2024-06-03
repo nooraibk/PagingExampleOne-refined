@@ -15,7 +15,7 @@ class CatsLoadStateViewHolder(
         loadStateBinding.retryButton.setOnClickListener { retry.invoke() }
     }
 
-    fun bindLoadStateView(loadState: LoadState){
+    infix fun bindLoadStateView(loadState: LoadState){
         loadStateBinding.apply {
             if (loadState is LoadState.Error){
                 errorMsg.text = loadState.error.localizedMessage

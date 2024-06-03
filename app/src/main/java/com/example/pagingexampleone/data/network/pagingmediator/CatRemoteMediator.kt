@@ -8,6 +8,7 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.pagingexampleone.core.Constants.STARTING_PAGE_INDEX
 import com.example.pagingexampleone.core.calculateAndCheckTime
+import com.example.pagingexampleone.core.logger
 import com.example.pagingexampleone.core.mappers.DtoMapper
 import com.example.pagingexampleone.core.mappers.EntityMapper
 import com.example.pagingexampleone.core.models.Cat
@@ -32,21 +33,25 @@ class CatRemoteMediator(
 ) : RemoteMediator<Int, CatEntity>() {
 
     override suspend fun initialize(): InitializeAction {
-        Log.d("Time::", "${System.currentTimeMillis()} ${tinyDb.getLong(LAST_DATA_FETCHED_DATE, -1)}, ${System.currentTimeMillis()
-            .calculateAndCheckTime(tinyDb.getLong(LAST_DATA_FETCHED_DATE, -1))}")
-        return if (System.currentTimeMillis()
-                .calculateAndCheckTime(tinyDb.getLong(LAST_DATA_FETCHED_DATE, -1))
-        ) {
-            Log.d("LaunchInitial", "Launch Initial")
+        val currentTime = System.currentTimeMillis()
+        val savedTime = tinyDb.getLong(LAST_DATA_FETCHED_DATE,-1)
+        "$currentTime $savedTime, ${
+            System.currentTimeMillis() calculateAndCheckTime savedTime
+        }".logger("Time:: ")
+        return if (System.currentTimeMillis() calculateAndCheckTime savedTime) {
+            "Launch Initial".logger("LaunchInitial:: ")
             tinyDb.putLong(LAST_DATA_FETCHED_DATE, System.currentTimeMillis())
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else {
-            Log.d("SkipInitial", "Skip Initial")
+            "Skip Initial".logger("SkipInitial:: ")
             InitializeAction.SKIP_INITIAL_REFRESH
         }
     }
 
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, CatEntity>): MediatorResult {
+    override suspend fun load(
+        loadType: LoadType,
+        state: PagingState<Int, CatEntity>
+    ): MediatorResult {
         val pageKeyData = getKeyPageData(
             loadType,
             state
@@ -63,7 +68,8 @@ class CatRemoteMediator(
         }
 
         try {
-            val response = api.getCatImages(page = page, size = state.config.pageSize).map { dtoMapper.mapFromDto(it) }
+            val response = api.getCatImages(page = page, size = state.config.pageSize)
+                .map { dtoMapper.mapFromDto(it) }
             val isEndOfList = response.isEmpty()
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {

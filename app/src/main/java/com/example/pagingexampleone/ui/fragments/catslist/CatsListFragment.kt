@@ -27,10 +27,9 @@ class CatsListFragment : BaseFragment<FragmentCatsListBinding>(
         binding.apply {
             initAdapter()
             lifecycleScope.launch(Dispatchers.IO) {
-                viewModel.setCats(arguments?.getSerializable(CATS_DATA_TYPE) as DataType)
-                    .collectLatest {
-                        catsAdapter.submitData(it)
-                    }
+                (viewModel setCats arguments?.getSerializable(CATS_DATA_TYPE) as DataType).collectLatest {
+                    catsAdapter.submitData(it)
+                }
             }
         }
     }
@@ -46,7 +45,7 @@ class CatsListFragment : BaseFragment<FragmentCatsListBinding>(
                     recyclerView.isVisible = combinedLoadStates.refresh is LoadState.NotLoading
                     progressBar.isVisible = combinedLoadStates.refresh is LoadState.Loading
                     buttonRetry.isVisible = combinedLoadStates.refresh is LoadState.Error
-                    handleError(combinedLoadStates)
+                    this@CatsListFragment handleError combinedLoadStates
                 }
             }
             buttonRetry.setOnClickListener {
@@ -55,12 +54,12 @@ class CatsListFragment : BaseFragment<FragmentCatsListBinding>(
         }
     }
 
-    private fun handleError(combinedLoadStates: CombinedLoadStates) {
+    private infix fun handleError(combinedLoadStates: CombinedLoadStates) {
         val errorState = combinedLoadStates.source.append as? LoadState.Error
             ?: combinedLoadStates.source.prepend as? LoadState.Error
 
         errorState.let {
-            requireContext().showToast(it?.error.toString())
+            requireContext() showToast it?.error.toString()
         }
     }
 }

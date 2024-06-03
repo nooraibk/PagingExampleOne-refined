@@ -39,7 +39,7 @@ class MainViewModel @Inject constructor(
     )
 
 
-    fun setCats(catsType: DataType): SharedFlow<PagingData<Cat>> {
+    infix fun setCats(catsType: DataType): SharedFlow<PagingData<Cat>> {
         return when (catsType) {
             DataType.Local -> {
                 localCats
