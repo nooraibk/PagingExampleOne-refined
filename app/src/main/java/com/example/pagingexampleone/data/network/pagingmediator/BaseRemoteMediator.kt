@@ -57,7 +57,7 @@ abstract class BaseRemoteMediator<T : DataModel>(
                     RemoteKeyEntity(it.id, prevKey, nextKey)
                 }
                 db.getKeysDao().insertAll(dataKeys)
-                this insertData remoteResponse
+                insertData(remoteResponse)
             }
             return MediatorResult.Success(endOfPaginationReached = isEndOfResult)
         } catch (e: Exception) {
@@ -67,7 +67,7 @@ abstract class BaseRemoteMediator<T : DataModel>(
 
     abstract suspend fun deleteExistingData()
 
-    abstract suspend infix fun insertData(dataList: List<DataModel>)
+    abstract suspend fun insertData(dataList : List<DataModel>)
 
     abstract suspend fun remoteDataList(pageSize: Int, page: Int): List<DataModel>
 
