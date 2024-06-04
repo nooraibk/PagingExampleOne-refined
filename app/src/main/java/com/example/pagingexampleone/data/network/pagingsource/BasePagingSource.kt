@@ -2,7 +2,7 @@ package com.example.pagingexampleone.data.network.pagingsource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.pagingexampleone.core.Constants.STARTING_PAGE_INDEX
+import com.example.pagingexampleone.core.STARTING_PAGE_INDEX
 import java.io.IOException
 
 abstract class BasePagingSource<T : Any> : PagingSource<Int, T>(){

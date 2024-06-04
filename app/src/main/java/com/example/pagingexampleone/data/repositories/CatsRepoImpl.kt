@@ -4,17 +4,16 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.pagingexampleone.core.Constants.PAGE_SIZE
-import com.example.pagingexampleone.core.mappers.DtoMapper
-import com.example.pagingexampleone.core.mappers.EntityMapper
-import com.example.pagingexampleone.core.models.Cat
+import com.example.pagingexampleone.core.PAGE_SIZE
+import com.example.pagingexampleone.core.mappers.ModelMapper
+import com.example.pagingexampleone.core.models.CatModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entities.cat.CatEntity
 import com.example.pagingexampleone.data.local.preferences.TinyDB
 import com.example.pagingexampleone.data.network.CatsApi
 import com.example.pagingexampleone.data.network.dtos.cat.CatDto
-import com.example.pagingexampleone.data.network.pagingsource.CatsPaging
 import com.example.pagingexampleone.data.network.pagingmediator.CatsRemoteMediator
+import com.example.pagingexampleone.data.network.pagingsource.CatsPaging
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -22,8 +21,8 @@ class CatsRepoImpl @Inject constructor(
     private val catsApi: CatsApi,
     private val catDB: CatDatabase,
     private val tinyDB: TinyDB,
-    private val catEntityMapper : EntityMapper<CatEntity, Cat>,
-    private val catDtoMapper : DtoMapper<CatDto, Cat>
+    private val catModelEntityMapper : ModelMapper<CatEntity, CatModel>,
+    private val catModelModelMapper : ModelMapper<CatDto, CatModel>
 ) : CatsRepo {
     override fun getRemoteCats(): Flow<PagingData<CatDto>> {
         return Pager(
@@ -59,8 +58,8 @@ class CatsRepoImpl @Inject constructor(
                 catsApi,
                 catDB,
                 tinyDB,
-                catEntityMapper,
-                catDtoMapper
+                catModelEntityMapper,
+                catModelModelMapper
             ),
             pagingSourceFactory = { catDB.getCatDao().getAll() }
         ).flow

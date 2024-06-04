@@ -1,8 +1,8 @@
 package com.example.pagingexampleone.di
 
-import com.example.pagingexampleone.core.Constants.API_KEY
-import com.example.pagingexampleone.core.Constants.AUTH_HEADER
-import com.example.pagingexampleone.core.Constants.BASE_URL
+import com.example.pagingexampleone.core.API_KEY
+import com.example.pagingexampleone.core.AUTH_HEADER
+import com.example.pagingexampleone.core.BASE_URL
 import com.example.pagingexampleone.data.network.CatsApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -20,6 +20,7 @@ import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
+
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {

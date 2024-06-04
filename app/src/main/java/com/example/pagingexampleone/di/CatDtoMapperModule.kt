@@ -1,7 +1,7 @@
 package com.example.pagingexampleone.di
 
-import com.example.pagingexampleone.core.mappers.DtoMapper
-import com.example.pagingexampleone.core.models.Cat
+import com.example.pagingexampleone.core.mappers.ModelMapper
+import com.example.pagingexampleone.core.models.CatModel
 import com.example.pagingexampleone.data.network.dtos.cat.CatDto
 import com.example.pagingexampleone.data.network.dtos.cat.CatDtoMapper
 import dagger.Binds
@@ -15,5 +15,5 @@ import javax.inject.Singleton
 abstract class CatDtoMapperModule {
     @Singleton
     @Binds
-    abstract fun providesCatDtoMapper(catDtoMapper: CatDtoMapper) : DtoMapper<CatDto, Cat>
+    abstract fun providesCatDtoMapper(catDtoMapper: CatDtoMapper) : ModelMapper<CatDto, CatModel>
 }

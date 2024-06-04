@@ -1,26 +1,22 @@
 package com.example.pagingexampleone.data.network.pagingmediator
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.example.pagingexampleone.core.Constants.STARTING_PAGE_INDEX
+import com.example.pagingexampleone.core.PREF_LAST_DATA_FETCHED_DATE
+import com.example.pagingexampleone.core.STARTING_PAGE_INDEX
 import com.example.pagingexampleone.core.calculateAndCheckTime
 import com.example.pagingexampleone.core.logger
-import com.example.pagingexampleone.core.mappers.DtoMapper
-import com.example.pagingexampleone.core.mappers.EntityMapper
-import com.example.pagingexampleone.core.models.Cat
+import com.example.pagingexampleone.core.mappers.ModelMapper
+import com.example.pagingexampleone.core.models.CatModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entities.RemoteKeyEntity
 import com.example.pagingexampleone.data.local.entities.cat.CatEntity
-import com.example.pagingexampleone.data.local.entities.cat.CatEntityMapper
-import com.example.pagingexampleone.data.local.preferences.PreferencesKey.LAST_DATA_FETCHED_DATE
 import com.example.pagingexampleone.data.local.preferences.TinyDB
 import com.example.pagingexampleone.data.network.CatsApi
 import com.example.pagingexampleone.data.network.dtos.cat.CatDto
-import com.example.pagingexampleone.data.network.dtos.cat.CatDtoMapper
 import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -28,19 +24,19 @@ class CatRemoteMediator(
     private val api: CatsApi,
     private val db: CatDatabase,
     private val tinyDb: TinyDB,
-    private val entityMapper: EntityMapper<CatEntity, Cat>,
-    private val dtoMapper: DtoMapper<CatDto, Cat>,
+    private val entityMapper: ModelMapper<CatEntity, CatModel>,
+    private val modelMapper: ModelMapper<CatDto, CatModel>,
 ) : RemoteMediator<Int, CatEntity>() {
 
     override suspend fun initialize(): InitializeAction {
         val currentTime = System.currentTimeMillis()
-        val savedTime = tinyDb.getLong(LAST_DATA_FETCHED_DATE,-1)
+        val savedTime = tinyDb.getLong(PREF_LAST_DATA_FETCHED_DATE,-1)
         "$currentTime $savedTime, ${
             System.currentTimeMillis() calculateAndCheckTime savedTime
         }".logger("Time:: ")
         return if (System.currentTimeMillis() calculateAndCheckTime savedTime) {
             "Launch Initial".logger("LaunchInitial:: ")
-            tinyDb.putLong(LAST_DATA_FETCHED_DATE, System.currentTimeMillis())
+            tinyDb.putLong(PREF_LAST_DATA_FETCHED_DATE, System.currentTimeMillis())
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else {
             "Skip Initial".logger("SkipInitial:: ")
@@ -69,7 +65,7 @@ class CatRemoteMediator(
 
         try {
             val response = api.getCatImages(page = page, size = state.config.pageSize)
-                .map { dtoMapper.mapFromDto(it) }
+                .map { modelMapper.mapToModel(it) }
             val isEndOfList = response.isEmpty()
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
@@ -83,7 +79,7 @@ class CatRemoteMediator(
                     RemoteKeyEntity(it.id, prevKey = prevKey, nextKey = nextKey)
                 }
                 db.getKeysDao().insertAll(keys)
-                db.getCatDao().insertAll(response.map { entityMapper.mapToEntity(it) })
+                db.getCatDao().insertAll(response.map { entityMapper.mapFromDomain(it) })
 //                db.getCatDao().insertCatWithLimit(response)
             }
             return MediatorResult.Success(endOfPaginationReached = isEndOfList)

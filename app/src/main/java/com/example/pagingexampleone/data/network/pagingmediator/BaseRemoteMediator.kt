@@ -5,12 +5,12 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.example.pagingexampleone.core.Constants.STARTING_PAGE_INDEX
+import com.example.pagingexampleone.core.PREF_LAST_DATA_FETCHED_DATE
+import com.example.pagingexampleone.core.STARTING_PAGE_INDEX
 import com.example.pagingexampleone.core.calculateAndCheckTime
 import com.example.pagingexampleone.core.models.DataModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entities.RemoteKeyEntity
-import com.example.pagingexampleone.data.local.preferences.PreferencesKey
 import com.example.pagingexampleone.data.local.preferences.TinyDB
 
 @OptIn(ExperimentalPagingApi::class)
@@ -20,9 +20,9 @@ abstract class BaseRemoteMediator<T : DataModel>(
 ) : RemoteMediator<Int, T>() {
     override suspend fun initialize(): InitializeAction {
         val currentTime = System.currentTimeMillis()
-        val savedTime = tinyDb.getLong(PreferencesKey.LAST_DATA_FETCHED_DATE, -1)
+        val savedTime = tinyDb.getLong(PREF_LAST_DATA_FETCHED_DATE, -1)
         return if (currentTime calculateAndCheckTime savedTime) {
-            tinyDb.putLong(PreferencesKey.LAST_DATA_FETCHED_DATE, System.currentTimeMillis())
+            tinyDb.putLong(PREF_LAST_DATA_FETCHED_DATE, System.currentTimeMillis())
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else {
             InitializeAction.SKIP_INITIAL_REFRESH

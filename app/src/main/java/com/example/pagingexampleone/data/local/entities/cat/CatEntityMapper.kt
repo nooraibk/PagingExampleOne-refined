@@ -1,18 +1,18 @@
 package com.example.pagingexampleone.data.local.entities.cat
 
-import com.example.pagingexampleone.core.mappers.EntityMapper
-import com.example.pagingexampleone.core.models.Cat
+import com.example.pagingexampleone.core.mappers.ModelMapper
+import com.example.pagingexampleone.core.models.CatModel
 import javax.inject.Inject
 
-class CatEntityMapper @Inject constructor(): EntityMapper<CatEntity, Cat> {
+class CatEntityMapper @Inject constructor() : ModelMapper<CatEntity, CatModel> {
 
-    override fun mapFromEntity(entity: CatEntity) =
-        Cat(
-            id = entity.id,
-            url = entity.url
+    override fun mapToModel(obj: CatEntity) =
+        CatModel(
+            id = obj.id,
+            url = obj.url
         )
 
-    override fun mapToEntity(domain: Cat) =
+    override fun mapFromDomain(domain: CatModel) =
         CatEntity(
             id = domain.id,
             url = domain.url

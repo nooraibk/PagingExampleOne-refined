@@ -1,6 +1,6 @@
 package com.example.pagingexampleone.core.models
 
-data class Cat(
+data class CatModel(
     override val id: String,
     val url: String
 ) : DataModel()

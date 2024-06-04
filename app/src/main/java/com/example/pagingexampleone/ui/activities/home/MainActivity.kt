@@ -1,9 +1,8 @@
 package com.example.pagingexampleone.ui.activities.home
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.example.pagingexampleone.R
-import com.example.pagingexampleone.core.Constants.CATS_DATA_TYPE
+import com.example.pagingexampleone.core.CATS_DATA_TYPE
 import com.example.pagingexampleone.core.bases.BaseActivity
 import com.example.pagingexampleone.core.showToast
 import com.example.pagingexampleone.core.utils.DataType

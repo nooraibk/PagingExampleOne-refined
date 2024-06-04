@@ -1,18 +1,18 @@
 package com.example.pagingexampleone.data.network.dtos.cat
 
-import com.example.pagingexampleone.core.mappers.DtoMapper
-import com.example.pagingexampleone.core.models.Cat
+import com.example.pagingexampleone.core.mappers.ModelMapper
+import com.example.pagingexampleone.core.models.CatModel
 import javax.inject.Inject
 
-class CatDtoMapper @Inject constructor(): DtoMapper<CatDto, Cat> {
+class CatDtoMapper @Inject constructor(): ModelMapper<CatDto, CatModel> {
 
-    override fun mapFromDto(dto: CatDto) =
-        Cat(
-            id = dto.id,
-            url = dto.url
+    override fun mapToModel(obj: CatDto) =
+        CatModel(
+            id = obj.id,
+            url = obj.url
         )
 
-    override fun mapToDto(domain: Cat) =
+    override fun mapFromDomain(domain: CatModel) =
         CatDto(
             id = domain.id,
             url = domain.url

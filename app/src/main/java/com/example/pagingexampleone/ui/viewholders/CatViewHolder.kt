@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.pagingexampleone.R
-import com.example.pagingexampleone.core.models.Cat
+import com.example.pagingexampleone.core.models.CatModel
 import com.example.pagingexampleone.databinding.ItemCatBinding
 
 class CatViewHolder (private val catBinding : ItemCatBinding) :
     RecyclerView.ViewHolder(catBinding.root) {
-    infix fun bind(item : Cat?){
+    infix fun bind(item : CatModel?){
         catBinding.imageCat.load(item?.url){
             placeholder(R.drawable.ic_placeholder)
         }

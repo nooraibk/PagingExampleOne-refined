@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.pagingexampleone.core.models.Cat
+import com.example.pagingexampleone.core.models.CatModel
 import com.example.pagingexampleone.core.utils.DataType
 import com.example.pagingexampleone.domain.usecases.GetLocalCatsUseCase
 import com.example.pagingexampleone.domain.usecases.GetMediatorCatsUseCase
@@ -39,7 +39,7 @@ class MainViewModel @Inject constructor(
     )
 
 
-    infix fun setCats(catsType: DataType): StateFlow<PagingData<Cat>> {
+    infix fun setCats(catsType: DataType): StateFlow<PagingData<CatModel>> {
         return when (catsType) {
             DataType.Local -> {
                 localCats

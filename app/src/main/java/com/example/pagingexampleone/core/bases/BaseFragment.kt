@@ -8,15 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewbinding.ViewBinding
 import com.example.pagingexampleone.ui.activities.home.MainViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
-import kotlin.coroutines.CoroutineContext
 
 abstract class BaseFragment<VB : ViewBinding>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB
-) : Fragment(), CoroutineScope {
+) : Fragment() {
 
     val viewModel: MainViewModel by activityViewModels()
 
@@ -33,13 +28,6 @@ abstract class BaseFragment<VB : ViewBinding>(
     ): View? {
         _binding = bindingInflater.invoke(inflater)
         return binding.root
-    }
-
-    override val coroutineContext: CoroutineContext
-        get() = Job() + exception
-    private val exception = CoroutineExceptionHandler { coroutineContext, throwable ->
-        cancel()
-        throwable.printStackTrace()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

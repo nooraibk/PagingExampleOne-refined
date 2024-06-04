@@ -4,7 +4,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import com.example.pagingexampleone.core.Constants.CATS_DATA_TYPE
+import com.example.pagingexampleone.core.CATS_DATA_TYPE
 import com.example.pagingexampleone.core.bases.BaseFragment
 import com.example.pagingexampleone.core.showToast
 import com.example.pagingexampleone.core.utils.DataType
