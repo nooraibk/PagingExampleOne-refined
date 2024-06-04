@@ -10,8 +10,8 @@ import com.example.pagingexampleone.domain.usecases.GetLocalCatsUseCase
 import com.example.pagingexampleone.domain.usecases.GetMediatorCatsUseCase
 import com.example.pagingexampleone.domain.usecases.GetRemoteCatsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -39,7 +39,7 @@ class MainViewModel @Inject constructor(
     )
 
 
-    infix fun setCats(catsType: DataType): SharedFlow<PagingData<Cat>> {
+    infix fun setCats(catsType: DataType): StateFlow<PagingData<Cat>> {
         return when (catsType) {
             DataType.Local -> {
                 localCats

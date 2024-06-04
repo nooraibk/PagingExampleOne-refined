@@ -16,9 +16,7 @@ import javax.inject.Singleton
 object DbModule {
     @Provides
     @Singleton
-    fun provideDb(
-        @ApplicationContext appContext: Context
-    ): CatDatabase {
+    fun provideDb( appContext: Context): CatDatabase {
         return Room.databaseBuilder(
             appContext, CatDatabase::class.java,
             CATS_DATABASE
