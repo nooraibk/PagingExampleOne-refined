@@ -8,7 +8,7 @@ import androidx.room.withTransaction
 import com.example.pagingexampleone.core.PREF_LAST_DATA_FETCHED_DATE
 import com.example.pagingexampleone.core.STARTING_PAGE_INDEX
 import com.example.pagingexampleone.core.calculateAndCheckTimeOf
-import com.example.pagingexampleone.core.logit
+import com.example.pagingexampleone.core.logIt
 import com.example.pagingexampleone.core.mappers.ModelMapper
 import com.example.pagingexampleone.core.models.CatModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
@@ -33,13 +33,13 @@ class CatRemoteMediator(
         val savedTime = tinyDb.getLong(PREF_LAST_DATA_FETCHED_DATE,-1)
         "$currentTime $savedTime, ${
             System.currentTimeMillis() calculateAndCheckTimeOf savedTime
-        }".logit("Time:: ")
+        }".logIt("Time:: ")
         return if (System.currentTimeMillis() calculateAndCheckTimeOf savedTime) {
-            "Launch Initial".logit("LaunchInitial:: ")
+            "Launch Initial".logIt("LaunchInitial:: ")
             tinyDb.putLong(PREF_LAST_DATA_FETCHED_DATE, System.currentTimeMillis())
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else {
-            "Skip Initial".logit("SkipInitial:: ")
+            "Skip Initial".logIt("SkipInitial:: ")
             InitializeAction.SKIP_INITIAL_REFRESH
         }
     }

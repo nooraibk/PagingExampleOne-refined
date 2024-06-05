@@ -8,7 +8,7 @@ import androidx.paging.PagingData
 import com.example.pagingexampleone.R
 import com.example.pagingexampleone.core.CATS_DATA_TYPE
 import com.example.pagingexampleone.core.bases.BaseFragment
-import com.example.pagingexampleone.core.logit
+import com.example.pagingexampleone.core.logIt
 import com.example.pagingexampleone.core.models.CatModel
 import com.example.pagingexampleone.core.showToastOf
 import com.example.pagingexampleone.core.utils.DataType
@@ -83,8 +83,10 @@ class CatsListFragment : BaseFragment<FragmentCatsListBinding>(
             ?: combinedLoadStates.source.prepend as? LoadState.Error
 
         errorState.let {
-            it?.error.toString().logit()
-            context showToastOf R.string.error_loading_data
+            it?.error.toString().logIt("LoadStateError:: ")
+            if (it?.error != null) {
+                context showToastOf R.string.error_loading_data
+            }
         }
     }
 }

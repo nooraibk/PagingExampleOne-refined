@@ -9,7 +9,7 @@ infix fun Long.calculateAndCheckTimeOf(savedTime : Long) : Boolean{
     val timeDifference = this - savedTime
 //    val twentyFourHoursInMillis = 4 * 60 * 60 * 1000L //hh/mm//ss//ms
     val twentyFourHoursInMillis = 1 * 60 * 1000L
-    "$timeDifference $twentyFourHoursInMillis".logit("Time:: ")
+    "$timeDifference $twentyFourHoursInMillis".logIt("Time:: ")
     return (timeDifference >= twentyFourHoursInMillis)
 }
 
@@ -19,6 +19,6 @@ infix fun Context?.showToastOf(@StringRes resourceId: Int) {
     }
 }
 
-fun String.logit(tag : String = "PagingExampleApp:: "){
+fun String.logIt(tag : String = "PagingExampleApp:: "){
     Log.d(tag, this)
 }

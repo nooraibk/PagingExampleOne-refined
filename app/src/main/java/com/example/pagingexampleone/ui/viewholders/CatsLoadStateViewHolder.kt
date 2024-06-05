@@ -1,7 +1,5 @@
 package com.example.pagingexampleone.ui.viewholders
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
@@ -24,15 +22,6 @@ class CatsLoadStateViewHolder(
             progressBar.isVisible = loadState is LoadState.Loading
             errorMsg.isVisible = loadState is LoadState.Error
             retryButton.isVisible = loadState is LoadState.Error
-        }
-    }
-
-    companion object{
-        fun create(viewGroup: ViewGroup, retry: () -> Unit) : CatsLoadStateViewHolder{
-            val view = LayoutInflater.from(viewGroup.context)
-            val inflater = ItemLoadStateBinding.inflate(view, viewGroup, false)
-            val binding = ItemLoadStateBinding.bind(inflater.root)
-            return CatsLoadStateViewHolder(binding, retry)
         }
     }
 }
