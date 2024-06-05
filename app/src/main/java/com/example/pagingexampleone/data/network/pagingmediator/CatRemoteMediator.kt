@@ -7,8 +7,8 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.pagingexampleone.core.PREF_LAST_DATA_FETCHED_DATE
 import com.example.pagingexampleone.core.STARTING_PAGE_INDEX
-import com.example.pagingexampleone.core.calculateAndCheckTime
-import com.example.pagingexampleone.core.logger
+import com.example.pagingexampleone.core.calculateAndCheckTimeOf
+import com.example.pagingexampleone.core.logit
 import com.example.pagingexampleone.core.mappers.ModelMapper
 import com.example.pagingexampleone.core.models.CatModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
@@ -32,14 +32,14 @@ class CatRemoteMediator(
         val currentTime = System.currentTimeMillis()
         val savedTime = tinyDb.getLong(PREF_LAST_DATA_FETCHED_DATE,-1)
         "$currentTime $savedTime, ${
-            System.currentTimeMillis() calculateAndCheckTime savedTime
-        }".logger("Time:: ")
-        return if (System.currentTimeMillis() calculateAndCheckTime savedTime) {
-            "Launch Initial".logger("LaunchInitial:: ")
+            System.currentTimeMillis() calculateAndCheckTimeOf savedTime
+        }".logit("Time:: ")
+        return if (System.currentTimeMillis() calculateAndCheckTimeOf savedTime) {
+            "Launch Initial".logit("LaunchInitial:: ")
             tinyDb.putLong(PREF_LAST_DATA_FETCHED_DATE, System.currentTimeMillis())
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else {
-            "Skip Initial".logger("SkipInitial:: ")
+            "Skip Initial".logit("SkipInitial:: ")
             InitializeAction.SKIP_INITIAL_REFRESH
         }
     }

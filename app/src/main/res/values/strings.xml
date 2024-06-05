@@ -2,4 +2,6 @@
     <string name="app_name">PagingExampleOne</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hehe">hehe :)</string>
+    <string name="error_loading_data">Error Loading Data</string>
 </resources>

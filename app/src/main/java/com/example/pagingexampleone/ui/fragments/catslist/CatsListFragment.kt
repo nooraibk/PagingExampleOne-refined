@@ -4,15 +4,21 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.paging.PagingData
+import com.example.pagingexampleone.R
 import com.example.pagingexampleone.core.CATS_DATA_TYPE
 import com.example.pagingexampleone.core.bases.BaseFragment
-import com.example.pagingexampleone.core.showToast
+import com.example.pagingexampleone.core.logit
+import com.example.pagingexampleone.core.models.CatModel
+import com.example.pagingexampleone.core.showToastOf
 import com.example.pagingexampleone.core.utils.DataType
 import com.example.pagingexampleone.databinding.FragmentCatsListBinding
 import com.example.pagingexampleone.ui.adapters.CatsLoadStateAdapter
 import com.example.pagingexampleone.ui.adapters.CatsPagingDataAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -24,12 +30,32 @@ class CatsListFragment : BaseFragment<FragmentCatsListBinding>(
     private val catsAdapter by lazy { CatsPagingDataAdapter() }
 
     override fun viewInitialized() {
-        binding.apply {
-            initAdapter()
-            lifecycleScope.launch(Dispatchers.IO) {
-                (viewModel setCats arguments?.getSerializable(CATS_DATA_TYPE) as DataType).collectLatest {
-                    catsAdapter.submitData(it)
-                }
+        initAdapter()
+        val catType = arguments?.getInt(CATS_DATA_TYPE)?: -1
+        val catEnum = DataType.toDataTypeEnum(catType)
+        lifecycleScope.launch(Dispatchers.IO) {
+            (this@CatsListFragment setCats catEnum).collectLatest {
+                catsAdapter.submitData(it)
+            }
+        }
+    }
+
+    private infix fun setCats(catsType: DataType): StateFlow<PagingData<CatModel>> {
+        return when (catsType) {
+            DataType.Local -> {
+                viewModel.localCats
+            }
+
+            DataType.Network -> {
+                viewModel.remoteCats
+            }
+
+            DataType.Mediator -> {
+                viewModel.mediatorCats
+            }
+
+            else -> {
+                MutableStateFlow(PagingData.empty())
             }
         }
     }
@@ -41,12 +67,10 @@ class CatsListFragment : BaseFragment<FragmentCatsListBinding>(
                 footer = CatsLoadStateAdapter { catsAdapter.retry() }
             )
             catsAdapter.addLoadStateListener { combinedLoadStates ->
-                binding.apply {
-                    recyclerView.isVisible = combinedLoadStates.refresh is LoadState.NotLoading
-                    progressBar.isVisible = combinedLoadStates.refresh is LoadState.Loading
-                    buttonRetry.isVisible = combinedLoadStates.refresh is LoadState.Error
-                    this@CatsListFragment handleError combinedLoadStates
-                }
+                recyclerView.isVisible = combinedLoadStates.refresh is LoadState.NotLoading
+                progressBar.isVisible = combinedLoadStates.refresh is LoadState.Loading
+                buttonRetry.isVisible = combinedLoadStates.refresh is LoadState.Error
+                this@CatsListFragment handleError combinedLoadStates
             }
             buttonRetry.setOnClickListener {
                 catsAdapter.retry()
@@ -59,7 +83,8 @@ class CatsListFragment : BaseFragment<FragmentCatsListBinding>(
             ?: combinedLoadStates.source.prepend as? LoadState.Error
 
         errorState.let {
-            requireContext() showToast it?.error.toString()
+            it?.error.toString().logit()
+            context showToastOf R.string.error_loading_data
         }
     }
 }

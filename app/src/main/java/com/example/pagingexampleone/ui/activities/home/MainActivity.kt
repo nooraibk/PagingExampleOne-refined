@@ -4,8 +4,7 @@ import android.os.Bundle
 import com.example.pagingexampleone.R
 import com.example.pagingexampleone.core.CATS_DATA_TYPE
 import com.example.pagingexampleone.core.bases.BaseActivity
-import com.example.pagingexampleone.core.showToast
-import com.example.pagingexampleone.core.utils.DataType
+import com.example.pagingexampleone.core.showToastOf
 import com.example.pagingexampleone.databinding.ActivityMainBinding
 import com.example.pagingexampleone.ui.fragments.catslist.CatsListFragment
 import com.example.pagingexampleone.ui.fragments.home.HomeFragment
@@ -16,7 +15,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun initializeViews() {
         binding.fragmentsContainer.setOnClickListener {
-            this showToast "hehe :)"
+            this showToastOf R.string.hehe
         }
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragments_container, HomeFragment())
@@ -25,10 +24,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    infix fun moveToListFragment(dataType : DataType) {
+    fun moveToListFragment(dataCode : Int) {
         val catsList = CatsListFragment()
         val bundle = Bundle()
-        bundle.putSerializable(CATS_DATA_TYPE, dataType)
+        bundle.putInt(CATS_DATA_TYPE, dataCode)
         catsList.arguments = bundle
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragments_container, catsList)
@@ -36,4 +35,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             commit()
         }
     }
+
 }

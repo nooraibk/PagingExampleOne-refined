@@ -22,36 +22,20 @@ class MainViewModel @Inject constructor(
     getMediatorCatsUseCase: GetMediatorCatsUseCase
 ) : ViewModel() {
 
-    private val localCats = getLocalCatsUseCase().cachedIn(viewModelScope).stateIn(
+    val localCats = getLocalCatsUseCase().cachedIn(viewModelScope).stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = PagingData.empty()
     )
-    private val remoteCats = getRemoteCatsUseCase().cachedIn(viewModelScope).stateIn(
+    val remoteCats = getRemoteCatsUseCase().cachedIn(viewModelScope).stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = PagingData.empty()
     )
-    private val mediatorCats = getMediatorCatsUseCase().cachedIn(viewModelScope).stateIn(
+    val mediatorCats = getMediatorCatsUseCase().cachedIn(viewModelScope).stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = PagingData.empty()
     )
 
-
-    infix fun setCats(catsType: DataType): StateFlow<PagingData<CatModel>> {
-        return when (catsType) {
-            DataType.Local -> {
-                localCats
-            }
-
-            DataType.Network -> {
-                remoteCats
-            }
-
-            DataType.Mediator -> {
-                mediatorCats
-            }
-        }
-    }
 }

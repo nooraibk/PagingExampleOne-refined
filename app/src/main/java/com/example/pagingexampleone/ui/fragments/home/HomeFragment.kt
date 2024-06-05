@@ -14,13 +14,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     override fun viewInitialized() {
         binding.apply {
             localCats.setOnClickListener {
-                (requireActivity() as MainActivity) moveToListFragment DataType.Local
+                (requireActivity() as? MainActivity)?.moveToListFragment(0)
             }
             remoteCats.setOnClickListener {
-                (requireActivity() as MainActivity) moveToListFragment DataType.Network
+                (requireActivity() as? MainActivity)?.moveToListFragment(1)
             }
             localAndRemoteCats.setOnClickListener {
-                (requireActivity() as MainActivity) moveToListFragment DataType.Mediator
+                (requireActivity() as? MainActivity)?.moveToListFragment(2)
             }
         }
     }
