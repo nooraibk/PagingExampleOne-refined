@@ -3,7 +3,6 @@ package com.example.pagingexampleone.data.network.pagingsource
 import android.util.Log
 import com.example.pagingexampleone.data.network.CatsApi
 import com.example.pagingexampleone.data.network.dtos.cat.CatDto
-import kotlinx.coroutines.delay
 import java.io.IOException
 
 class CatsPaging(private val catsApi: CatsApi) : BasePagingSource<CatDto>() {

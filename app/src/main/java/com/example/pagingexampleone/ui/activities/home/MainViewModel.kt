@@ -4,14 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.pagingexampleone.core.models.CatModel
-import com.example.pagingexampleone.core.utils.DataType
 import com.example.pagingexampleone.domain.usecases.GetLocalCatsUseCase
 import com.example.pagingexampleone.domain.usecases.GetMediatorCatsUseCase
 import com.example.pagingexampleone.domain.usecases.GetRemoteCatsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
