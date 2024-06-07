@@ -5,7 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.StringRes
 
-infix fun Long.calculateAndCheckTimeOf(savedTime : Long) : Boolean{
+infix fun Long.calculateAndCheckTimeFor(savedTime : Long) : Boolean{
     val timeDifference = this - savedTime
 //    val twentyFourHoursInMillis = 4 * 60 * 60 * 1000L //hh/mm//ss//ms
     val twentyFourHoursInMillis = 1 * 60 * 1000L

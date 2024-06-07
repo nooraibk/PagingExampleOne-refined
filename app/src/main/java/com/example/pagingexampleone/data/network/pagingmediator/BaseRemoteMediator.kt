@@ -7,11 +7,11 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.pagingexampleone.core.PREF_LAST_DATA_FETCHED_DATE
 import com.example.pagingexampleone.core.STARTING_PAGE_INDEX
-import com.example.pagingexampleone.core.calculateAndCheckTimeOf
+import com.example.pagingexampleone.core.calculateAndCheckTimeFor
 import com.example.pagingexampleone.domain.models.DataModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entities.RemoteKeyEntity
-import com.example.pagingexampleone.core.utils.TinyDB
+import com.example.pagingexampleone.data.local.preferences.TinyDB
 
 @OptIn(ExperimentalPagingApi::class)
 abstract class BaseRemoteMediator<T : DataModel>(
@@ -21,7 +21,7 @@ abstract class BaseRemoteMediator<T : DataModel>(
     override suspend fun initialize(): InitializeAction {
         val currentTime = System.currentTimeMillis()
         val savedTime = tinyDb.getLong(PREF_LAST_DATA_FETCHED_DATE, -1)
-        return if (currentTime calculateAndCheckTimeOf savedTime) {
+        return if (currentTime calculateAndCheckTimeFor savedTime) {
             tinyDb.putLong(PREF_LAST_DATA_FETCHED_DATE, System.currentTimeMillis())
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else {
@@ -74,25 +74,25 @@ abstract class BaseRemoteMediator<T : DataModel>(
     private suspend inline fun getKeyPageData(loadType: LoadType, state: PagingState<Int, T>): Any {
         return when (loadType) {
             LoadType.REFRESH -> {
-                val remoteKeys = this getRemoteKeyClosestToCurrentPosition state
+                val remoteKeys = this getRemoteKeyClosestToCurrentPositionFor state
                 remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
             }
 
             LoadType.APPEND -> {
-                val remoteKeys = this getLastRemoteKey state
+                val remoteKeys = this getLastRemoteKeyFor state
                 val nextKey = remoteKeys?.nextKey
                 return nextKey ?: MediatorResult.Success(endOfPaginationReached = false)
             }
 
             LoadType.PREPEND -> {
-                val remoteKeys = this getFirstRemoteKey state
+                val remoteKeys = this getFirstRemoteKeyFor state
                 val previousKey = remoteKeys?.prevKey
                 return previousKey ?: MediatorResult.Success(endOfPaginationReached = false)
             }
         }
     }
 
-    private suspend inline infix fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, T>): RemoteKeyEntity? {
+    private suspend inline infix fun getRemoteKeyClosestToCurrentPositionFor(state: PagingState<Int, T>): RemoteKeyEntity? {
         return state.anchorPosition?.let { anchorPos ->
             state.closestItemToPosition(anchorPos)?.id?.let { dataId ->
                 db.getKeysDao().getKeysByDataId(dataId)
@@ -100,7 +100,7 @@ abstract class BaseRemoteMediator<T : DataModel>(
         }
     }
 
-    private suspend inline infix fun getLastRemoteKey(state: PagingState<Int, T>): RemoteKeyEntity? {
+    private suspend inline infix fun getLastRemoteKeyFor(state: PagingState<Int, T>): RemoteKeyEntity? {
         val lastPageData = state.pages.lastOrNull {
             it.data.isNotEmpty()
         }
@@ -110,7 +110,7 @@ abstract class BaseRemoteMediator<T : DataModel>(
         }
     }
 
-    private suspend inline infix fun getFirstRemoteKey(state: PagingState<Int, T>): RemoteKeyEntity? {
+    private suspend inline infix fun getFirstRemoteKeyFor(state: PagingState<Int, T>): RemoteKeyEntity? {
         val firstPageData = state.pages.firstOrNull {
             it.data.isNotEmpty()
         }

@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.core.utils
+package com.example.pagingexampleone.data.local.preferences
 
 import android.content.Context
 import android.content.SharedPreferences

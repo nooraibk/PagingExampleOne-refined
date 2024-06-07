@@ -70,7 +70,7 @@ class CatsListFragment : BaseFragment<FragmentCatsListBinding>(
                 recyclerView.isVisible = combinedLoadStates.refresh is LoadState.NotLoading
                 progressBar.isVisible = combinedLoadStates.refresh is LoadState.Loading
                 buttonRetry.isVisible = combinedLoadStates.refresh is LoadState.Error
-                this@CatsListFragment handleError combinedLoadStates
+                this@CatsListFragment handleErrorFor combinedLoadStates
             }
             buttonRetry.setOnClickListener {
                 catsAdapter.retry()
@@ -78,7 +78,7 @@ class CatsListFragment : BaseFragment<FragmentCatsListBinding>(
         }
     }
 
-    private infix fun handleError(combinedLoadStates: CombinedLoadStates) {
+    private infix fun handleErrorFor(combinedLoadStates: CombinedLoadStates) {
         val errorState = combinedLoadStates.source.append as? LoadState.Error
             ?: combinedLoadStates.source.prepend as? LoadState.Error
 

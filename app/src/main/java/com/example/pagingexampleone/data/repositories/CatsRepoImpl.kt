@@ -8,7 +8,7 @@ import com.example.pagingexampleone.core.PAGE_SIZE
 import com.example.pagingexampleone.core.mappers.ModelMapper
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entities.cat.CatEntity
-import com.example.pagingexampleone.core.utils.TinyDB
+import com.example.pagingexampleone.data.local.preferences.TinyDB
 import com.example.pagingexampleone.data.network.CatsApi
 import com.example.pagingexampleone.data.network.dtos.cat.CatDto
 import com.example.pagingexampleone.data.network.pagingmediator.CatsRemoteMediator
