@@ -9,7 +9,7 @@ import com.example.pagingexampleone.R
 import com.example.pagingexampleone.core.CATS_DATA_TYPE
 import com.example.pagingexampleone.core.bases.BaseFragment
 import com.example.pagingexampleone.core.logIt
-import com.example.pagingexampleone.core.models.CatModel
+import com.example.pagingexampleone.domain.models.CatModel
 import com.example.pagingexampleone.core.showToastOf
 import com.example.pagingexampleone.core.utils.DataType
 import com.example.pagingexampleone.databinding.FragmentCatsListBinding

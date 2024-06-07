@@ -10,7 +10,7 @@ import com.example.pagingexampleone.core.STARTING_PAGE_INDEX
 import com.example.pagingexampleone.core.calculateAndCheckTimeOf
 import com.example.pagingexampleone.core.logIt
 import com.example.pagingexampleone.core.mappers.ModelMapper
-import com.example.pagingexampleone.core.models.CatModel
+import com.example.pagingexampleone.domain.models.CatModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entities.RemoteKeyEntity
 import com.example.pagingexampleone.data.local.entities.cat.CatEntity

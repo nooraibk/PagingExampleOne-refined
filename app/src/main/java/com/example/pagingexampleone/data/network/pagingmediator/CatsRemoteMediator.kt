@@ -1,8 +1,8 @@
 package com.example.pagingexampleone.data.network.pagingmediator
 
 import com.example.pagingexampleone.core.mappers.ModelMapper
-import com.example.pagingexampleone.core.models.CatModel
-import com.example.pagingexampleone.core.models.DataModel
+import com.example.pagingexampleone.domain.models.CatModel
+import com.example.pagingexampleone.domain.models.DataModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entities.cat.CatEntity
 import com.example.pagingexampleone.data.local.preferences.TinyDB

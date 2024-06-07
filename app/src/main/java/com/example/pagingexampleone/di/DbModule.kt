@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DbModule {
+class DbModule {
     @Provides
     @Singleton
     fun provideDb( appContext: Context): CatDatabase {

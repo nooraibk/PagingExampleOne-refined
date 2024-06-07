@@ -1,7 +1,7 @@
 package com.example.pagingexampleone.data.local.entities.cat
 
 import com.example.pagingexampleone.core.mappers.ModelMapper
-import com.example.pagingexampleone.core.models.CatModel
+import com.example.pagingexampleone.domain.models.CatModel
 import javax.inject.Inject
 
 class CatEntityMapper @Inject constructor() : ModelMapper<CatEntity, CatModel> {

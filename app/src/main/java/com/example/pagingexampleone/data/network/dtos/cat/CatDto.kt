@@ -1,6 +1,6 @@
 package com.example.pagingexampleone.data.network.dtos.cat
 
-import com.example.pagingexampleone.core.models.DataModel
+import com.example.pagingexampleone.domain.models.DataModel
 import com.google.gson.annotations.SerializedName
 
 data class CatDto(

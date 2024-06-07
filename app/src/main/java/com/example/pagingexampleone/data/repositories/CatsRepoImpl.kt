@@ -6,7 +6,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.pagingexampleone.core.PAGE_SIZE
 import com.example.pagingexampleone.core.mappers.ModelMapper
-import com.example.pagingexampleone.core.models.CatModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entities.cat.CatEntity
 import com.example.pagingexampleone.data.local.preferences.TinyDB
@@ -14,6 +13,7 @@ import com.example.pagingexampleone.data.network.CatsApi
 import com.example.pagingexampleone.data.network.dtos.cat.CatDto
 import com.example.pagingexampleone.data.network.pagingmediator.CatsRemoteMediator
 import com.example.pagingexampleone.data.network.pagingsource.CatsPaging
+import com.example.pagingexampleone.domain.models.CatModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

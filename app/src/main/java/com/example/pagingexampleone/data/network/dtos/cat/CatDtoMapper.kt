@@ -1,7 +1,7 @@
 package com.example.pagingexampleone.data.network.dtos.cat
 
 import com.example.pagingexampleone.core.mappers.ModelMapper
-import com.example.pagingexampleone.core.models.CatModel
+import com.example.pagingexampleone.domain.models.CatModel
 import javax.inject.Inject
 
 class CatDtoMapper @Inject constructor(): ModelMapper<CatDto, CatModel> {

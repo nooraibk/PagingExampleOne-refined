@@ -1,4 +1,4 @@
-package com.example.pagingexampleone.core.models
+package com.example.pagingexampleone.domain.models
 
 data class CatModel(
     override val id: String,

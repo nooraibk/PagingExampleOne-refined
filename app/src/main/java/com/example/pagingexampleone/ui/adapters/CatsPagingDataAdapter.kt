@@ -3,7 +3,7 @@ package com.example.pagingexampleone.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import com.example.pagingexampleone.core.models.CatModel
+import com.example.pagingexampleone.domain.models.CatModel
 import com.example.pagingexampleone.core.utils.NetworkDataDiffUtils
 import com.example.pagingexampleone.databinding.ItemCatBinding
 import com.example.pagingexampleone.ui.viewholders.CatViewHolder

@@ -8,7 +8,7 @@ import androidx.room.withTransaction
 import com.example.pagingexampleone.core.PREF_LAST_DATA_FETCHED_DATE
 import com.example.pagingexampleone.core.STARTING_PAGE_INDEX
 import com.example.pagingexampleone.core.calculateAndCheckTimeOf
-import com.example.pagingexampleone.core.models.DataModel
+import com.example.pagingexampleone.domain.models.DataModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entities.RemoteKeyEntity
 import com.example.pagingexampleone.data.local.preferences.TinyDB
@@ -67,7 +67,7 @@ abstract class BaseRemoteMediator<T : DataModel>(
 
     abstract suspend fun deleteExistingData()
 
-    abstract suspend fun insertData(dataList : List<DataModel>)
+    abstract suspend fun insertData(dataList: List<DataModel>)
 
     abstract suspend fun remoteDataList(pageSize: Int, page: Int): List<DataModel>
 

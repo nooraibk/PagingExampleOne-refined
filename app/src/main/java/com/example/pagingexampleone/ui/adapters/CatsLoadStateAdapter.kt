@@ -9,12 +9,14 @@ import com.example.pagingexampleone.ui.viewholders.CatsLoadStateViewHolder
 
 class CatsLoadStateAdapter(private val retry: () -> Unit) :
     LoadStateAdapter<CatsLoadStateViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup,loadState: LoadState): CatsLoadStateViewHolder {
-        val view = LayoutInflater.from(parent.context)
-        val inflater = ItemLoadStateBinding.inflate(view, parent, false)
-        val binding = ItemLoadStateBinding.bind(inflater.root)
-        return CatsLoadStateViewHolder(binding, retry)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState) =
+        CatsLoadStateViewHolder(
+            ItemLoadStateBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            ), retry
+        )
 
     override fun onBindViewHolder(holder: CatsLoadStateViewHolder, loadState: LoadState) {
         holder bindLoadStateView loadState
