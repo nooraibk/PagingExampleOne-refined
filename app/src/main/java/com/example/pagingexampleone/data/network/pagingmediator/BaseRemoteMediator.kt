@@ -11,7 +11,7 @@ import com.example.pagingexampleone.core.calculateAndCheckTimeOf
 import com.example.pagingexampleone.domain.models.DataModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entities.RemoteKeyEntity
-import com.example.pagingexampleone.data.local.preferences.TinyDB
+import com.example.pagingexampleone.core.utils.TinyDB
 
 @OptIn(ExperimentalPagingApi::class)
 abstract class BaseRemoteMediator<T : DataModel>(

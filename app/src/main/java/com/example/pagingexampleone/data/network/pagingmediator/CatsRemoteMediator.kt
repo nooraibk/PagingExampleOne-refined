@@ -5,7 +5,7 @@ import com.example.pagingexampleone.domain.models.CatModel
 import com.example.pagingexampleone.domain.models.DataModel
 import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entities.cat.CatEntity
-import com.example.pagingexampleone.data.local.preferences.TinyDB
+import com.example.pagingexampleone.core.utils.TinyDB
 import com.example.pagingexampleone.data.network.CatsApi
 import com.example.pagingexampleone.data.network.dtos.cat.CatDto
 
