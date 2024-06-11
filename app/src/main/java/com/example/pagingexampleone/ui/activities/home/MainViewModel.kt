@@ -4,9 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.pagingexampleone.domain.usecases.GetLocalCatsUseCase
-import com.example.pagingexampleone.domain.usecases.GetMediatorCatsUseCase
-import com.example.pagingexampleone.domain.usecases.GetRemoteCatsUseCase
+import com.example.pagingexampleone.data.repositories.CatsRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -14,22 +12,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    getRemoteCatsUseCase: GetRemoteCatsUseCase,
-    getLocalCatsUseCase: GetLocalCatsUseCase,
-    getMediatorCatsUseCase: GetMediatorCatsUseCase
+    catsRepo: CatsRepo
 ) : ViewModel() {
 
-    val localCats = getLocalCatsUseCase().cachedIn(viewModelScope).stateIn(
+    val localCats = catsRepo.getLocalCats().cachedIn(viewModelScope).stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = PagingData.empty()
     )
-    val remoteCats = getRemoteCatsUseCase().cachedIn(viewModelScope).stateIn(
+    val remoteCats = catsRepo.getRemoteCats().cachedIn(viewModelScope).stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = PagingData.empty()
     )
-    val mediatorCats = getMediatorCatsUseCase().cachedIn(viewModelScope).stateIn(
+    val mediatorCats = catsRepo.getCatsFromMediator().cachedIn(viewModelScope).stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = PagingData.empty()
