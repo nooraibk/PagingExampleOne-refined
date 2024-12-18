@@ -21,4 +21,14 @@ class DbModule {
             CATS_DATABASE
         ).build()
     }
+
+    @Provides
+    @Singleton
+    fun providesCatsDao(catDatabase: CatDatabase) =
+        catDatabase.getCatDao()
+
+    @Provides
+    @Singleton
+    fun providesKeysDao(catDatabase: CatDatabase) =
+        catDatabase.getKeysDao()
 }

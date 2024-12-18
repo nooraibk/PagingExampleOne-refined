@@ -1,32 +1,17 @@
 package com.example.pagingexampleone.data.network.pagingmediator
 
-import com.example.pagingexampleone.core.mappers.ModelMapper
-import com.example.pagingexampleone.domain.models.CatModel
-import com.example.pagingexampleone.domain.models.DataModel
-import com.example.pagingexampleone.data.local.db.CatDatabase
 import com.example.pagingexampleone.data.local.entities.cat.CatEntity
 import com.example.pagingexampleone.data.local.preferences.TinyDB
-import com.example.pagingexampleone.data.network.CatsApi
-import com.example.pagingexampleone.data.network.dtos.cat.CatDto
+import com.example.pagingexampleone.data.repositories.CatsRepo
+import com.example.pagingexampleone.data.repositories.KeysRepo
+import javax.inject.Inject
 
-class CatsRemoteMediator(
-    private val api: CatsApi,
-    private val db: CatDatabase,
+class CatsRemoteMediator @Inject constructor(
     tinyDb: TinyDB,
-    private val catModelEntityMapper: ModelMapper<CatEntity, CatModel>,
-    private val catModelModelMapper: ModelMapper<CatDto, CatModel>
-) : BaseRemoteMediator<CatEntity>(db, tinyDb) {
-
-    override suspend fun deleteExistingData() {
-        db.getCatDao().deleteAll()
-        db.getKeysDao().deleteAll()
-    }
-
-    override suspend fun insertData(dataList: List<DataModel>) =
-        db.getCatDao().insertAll(
-            dataList.map { catModelEntityMapper.mapFromDomain(it as CatModel) }
-        )
-
-    override suspend fun remoteDataList(pageSize: Int, page: Int) =
-        api.getCatImages(page = page, size = pageSize).map { catModelModelMapper.mapToModel(it) }
-}
+    catsRepo: CatsRepo,
+    keysRepo: KeysRepo,
+) : BaseRemoteMediator<CatEntity>(
+    tinyDb,
+    catsRepo,
+    keysRepo
+)

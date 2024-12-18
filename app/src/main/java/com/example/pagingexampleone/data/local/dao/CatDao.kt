@@ -31,25 +31,4 @@ interface CatDao {
     @Query("SELECT COUNT(*) FROM cats")
     suspend fun getCatsCount(): Int
 
-    @Query("SELECT * FROM cats")
-    suspend fun getAllCats(): List<CatEntity>
-
-    @Transaction
-    suspend fun insertCatWithLimit(cats: List<CatEntity>) {
-        val catsCount = getCatsCount()
-        val totalRecords = catsCount + cats.size
-
-        if (totalRecords > 150) { //max page limit is 90 so save at least one page items, better to save three pages
-            val recordsToDelete = totalRecords - 150 //the number of records that need to be deleted to maintain the limit.
-            val catsToDelete = minOf(recordsToDelete, catsCount) //calculates the number of cats from the existing database records that need to be deleted.
-            if (catsToDelete > 0) {
-                val catsToDeleteIds = getAllCats().take(catsToDelete).map { it.id }
-                deleteCatsByIds(catsToDeleteIds)
-            }
-        }
-
-        insertAll(cats)
-    }
-
-
 }
