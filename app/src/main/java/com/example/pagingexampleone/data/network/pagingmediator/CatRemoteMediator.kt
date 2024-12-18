@@ -1,5 +1,6 @@
 package com.example.pagingexampleone.data.network.pagingmediator
 
+import android.content.SharedPreferences
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -28,7 +29,7 @@ class CatRemoteMediator(
     private val modelMapper: ModelMapper<CatDto, CatModel>,
 ) : RemoteMediator<Int, CatEntity>() {
 
-    override suspend fun initialize(): InitializeAction {
+    override suspend fun initialize(preferences : SharedPreferences): InitializeAction {
         val currentTime = System.currentTimeMillis()
         val savedTime = tinyDb.getLong(PREF_LAST_DATA_FETCHED_DATE,-1)
         "$currentTime $savedTime, ${
@@ -36,6 +37,7 @@ class CatRemoteMediator(
         }".logIt("Time:: ")
         return if (System.currentTimeMillis() calculateAndCheckTimeFor savedTime) {
             "Launch Initial".logIt("LaunchInitial:: ")
+            val delegation : Boolean by preferences
             tinyDb.putLong(PREF_LAST_DATA_FETCHED_DATE, System.currentTimeMillis())
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else {
