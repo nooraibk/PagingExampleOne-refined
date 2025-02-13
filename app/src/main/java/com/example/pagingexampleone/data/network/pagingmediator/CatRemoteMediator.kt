@@ -29,7 +29,7 @@ class CatRemoteMediator(
     private val modelMapper: ModelMapper<CatDto, CatModel>,
 ) : RemoteMediator<Int, CatEntity>() {
 
-    override suspend fun initialize(preferences : SharedPreferences): InitializeAction {
+    suspend fun initialize(preferences : SharedPreferences): InitializeAction {
         val currentTime = System.currentTimeMillis()
         val savedTime = tinyDb.getLong(PREF_LAST_DATA_FETCHED_DATE,-1)
         "$currentTime $savedTime, ${
@@ -37,7 +37,7 @@ class CatRemoteMediator(
         }".logIt("Time:: ")
         return if (System.currentTimeMillis() calculateAndCheckTimeFor savedTime) {
             "Launch Initial".logIt("LaunchInitial:: ")
-            val delegation : Boolean by preferences
+//            val delegation : Boolean by preferences
             tinyDb.putLong(PREF_LAST_DATA_FETCHED_DATE, System.currentTimeMillis())
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else {

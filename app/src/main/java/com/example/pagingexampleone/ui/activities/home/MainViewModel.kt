@@ -1,9 +1,12 @@
 package com.example.pagingexampleone.ui.activities.home
 
+import android.content.Context
+import android.preference.PreferenceManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.example.pagingexampleone.data.local.preferences.TestRepository
 import com.example.pagingexampleone.data.repositories.CatsRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -31,4 +34,11 @@ class MainViewModel @Inject constructor(
         initialValue = PagingData.empty()
     )
 
+    fun mainVm(context: Context) {
+        val obj = TestRepository(
+            PreferenceManager.getDefaultSharedPreferences(context)
+        )
+
+        obj.updateDark()
+    }
 }
