@@ -25,8 +25,7 @@ class CatsRepoImpl @Inject constructor(
     private val tinyDB: TinyDB,
     private val keysRepo: KeysRepo,
     private val catModelEntityMapper: ModelMapper<CatEntity, CatModel>,
-    private val catModelModelMapper: ModelMapper<CatDto, CatModel>,
-    private val catMediator : CatsRemoteMediator
+    private val catModelModelMapper: ModelMapper<CatDto, CatModel>
 ) : CatsRepo {
     override fun getRemoteCats(): Flow<PagingData<CatModel>> {
         return Pager(
@@ -66,7 +65,12 @@ class CatsRepoImpl @Inject constructor(
                 maxSize = PAGE_SIZE + (PAGE_SIZE * 2),
                 enablePlaceholders = false
             ),
-            remoteMediator = catMediator,
+            remoteMediator = CatsRemoteMediator(
+                tinyDB,
+                this@CatsRepoImpl,
+                keysRepo,
+
+                ),
             pagingSourceFactory = { catDao.getAll() }
         ).flow.map {
             it.map { catEntity ->
