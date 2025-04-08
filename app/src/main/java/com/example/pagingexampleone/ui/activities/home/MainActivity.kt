@@ -10,7 +10,6 @@ import com.example.pagingexampleone.ui.fragments.catslist.CatsListFragment
 import com.example.pagingexampleone.ui.fragments.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
     override fun initializeViews() {

@@ -15,14 +15,12 @@ import com.example.pagingexampleone.databinding.FragmentCatsListBinding
 import com.example.pagingexampleone.domain.models.CatModel
 import com.example.pagingexampleone.ui.adapters.CatsLoadStateAdapter
 import com.example.pagingexampleone.ui.adapters.CatsPagingDataAdapter
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
 class CatsListFragment : BaseFragment<FragmentCatsListBinding>(
     FragmentCatsListBinding::inflate
 ) {
