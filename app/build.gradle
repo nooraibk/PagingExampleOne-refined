@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp' // Replaced 'kotlin-kapt' with 'ksp'
     id 'dagger.hilt.android.plugin'
 }
 
@@ -32,7 +32,7 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 }
@@ -74,7 +74,7 @@ dependencies {
     implementation libs.hilt.android
 //    kapt "com.google.dagger:hilt-android-compiler:${versions.hilt}"
 //    kapt (libs.hilt.android.compiler)
-    kapt (libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler) // changed kapt to ksp
 
 
     // coil
@@ -85,6 +85,6 @@ dependencies {
     implementation libs.androidx.room.ktx
 //    kapt "androidx.room:room-compiler:$versions.room"
     implementation libs.androidx.room.paging
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler) // changed kapt to ksp
 
 }
